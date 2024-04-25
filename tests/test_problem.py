@@ -1,5 +1,7 @@
 import pytest
 import pddl
+import sys
+sys.path.append("../")
 import object
 
 @pytest.mark.parametrize("problem_filename,expected", [
