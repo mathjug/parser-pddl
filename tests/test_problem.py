@@ -7,6 +7,9 @@ import object
     ])
 def test_objects_storage(problem_filename, expected):
     problem = pddl.parse_problem(problem_filename)
-    assert object.store_objects(problem) == expected
+    ans = object.store_objects(problem)
+    for key in ans:
+        ans[key] = sorted(ans[key])
+    assert ans == expected
 
 
