@@ -21,9 +21,8 @@ class Domain:
                 dict_predicates[predicate.name].append(str(next(iter(object.type_tags))))
         return dict_predicates
 
-
 def main():
-    domain_path = "../tests/gripper3.pddl"
+    domain_path = "../tests/examples/gripper3.pddl"
     domain = Domain(domain_path)
     print("Constants:", domain.constants)
     print("\nPredicates:", domain.predicates)
