@@ -13,6 +13,7 @@ def test_objects_storage(problem_filename, expected):
     ans = store_objects(problem)
     for key in ans:
         ans[key] = sorted(ans[key])
+
     assert ans == expected
 
 

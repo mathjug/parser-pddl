@@ -13,4 +13,14 @@ def test_constants_storage(domain_filename, expected):
     ans = store_constants(domain)
     for key in ans:
         ans[key] = sorted(ans[key])
+    
+    assert ans == expected
+
+@pytest.mark.parametrize("domain_filename,expected", [
+    ("./examples/gripper3.pddl", {"at-robby": ["room"],"at-ball": ["ball", "room"], "free": ["gripper"], "carry": ["ball", "gripper"], "whole": ["ball"],})
+    ])
+def test_predicates_storage(domain_filename, expected):
+    domain = pddl.parse_domain(domain_filename)
+    ans = store_predicates(domain)
+
     assert ans == expected
