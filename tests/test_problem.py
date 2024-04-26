@@ -1,16 +1,16 @@
 import pytest
 import pddl
 import sys
-import os
-sys.path.append("../")
-from src import object
+sys.path.append("../src/")
+from problem import store_objects
+sys.path.append("../tests/")
 
 @pytest.mark.parametrize("problem_filename,expected", [
-    (os.getcwd() + "/examples/gripper3_2_balls.pddl", {"room": ["rooma","roomb"], "ball" : ["ball1","ball2"]})
+    ("./examples/gripper3_2_balls.pddl", {"room": ["rooma","roomb"], "ball" : ["ball1","ball2"]})
     ])
 def test_objects_storage(problem_filename, expected):
     problem = pddl.parse_problem(problem_filename)
-    ans = object.store_objects(problem)
+    ans = store_objects(problem)
     for key in ans:
         ans[key] = sorted(ans[key])
     assert ans == expected
