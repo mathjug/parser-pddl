@@ -2,7 +2,7 @@ from pddl import parse_domain
 
 def store_constants(domain, dict_const = {}):
     for constant in domain.constants:
-        key = next(iter(constant.type_tags))
+        key = str(next(iter(constant.type_tags)))
         if key not in dict_const:
             dict_const[key] = []
         dict_const[key].append(repr(constant)[9:-1])
@@ -12,7 +12,7 @@ def store_predicates(domain, dict_predicates = {}):
     for predicate in domain.predicates:
         dict_predicates[predicate.name] = []
         for object in predicate.terms:
-            dict_predicates[predicate.name].append(next(iter(object.type_tags)))
+            dict_predicates[predicate.name].append(str(next(iter(object.type_tags))))
     return dict_predicates
 
 def main():
