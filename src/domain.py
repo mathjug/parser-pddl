@@ -1,4 +1,5 @@
 from pddl import parse_domain
+from custom_types import Object, Predicate
 
 class Domain:
     def __init__(self, domain_path):
@@ -8,24 +9,44 @@ class Domain:
 
     def __store_constants(self, parsed_domain, dict_const = {}):
         for constant in parsed_domain.constants:
-            key = str(next(iter(constant.type_tags)))
-            if key not in dict_const:
-                dict_const[key] = []
-            dict_const[key].append(repr(constant)[9:-1])
+            constant_type = str(next(iter(constant.type_tags)))
+            if constant_type not in dict_const:
+                dict_const[constant_type] = []
+
+            constant_name = repr(constant)[9:-1]
+            constant = Object(constant_name, constant_type)
+            dict_const[constant_type].append(constant)
         return dict_const
 
     def __store_predicates(self, parsed_domain, dict_predicates = {}):
+        predicates = []
         for predicate in parsed_domain.predicates:
-            dict_predicates[predicate.name] = []
+            variable_types = []
             for object in predicate.terms:
-                dict_predicates[predicate.name].append(str(next(iter(object.type_tags))))
-        return dict_predicates
+                variable_types.append(str(next(iter(object.type_tags))))
+
+            instantiated_predicate = Predicate(predicate.name, variable_types)
+            predicates.append(instantiated_predicate)
+
+        return predicates
 
 def main():
     domain_path = "../tests/examples/gripper3.pddl"
     domain = Domain(domain_path)
-    print("Constants:", domain.constants)
-    print("\nPredicates:", domain.predicates)
+
+    print("CONSTANTS")
+    constant_dict = domain.constants
+    for constant_type in constant_dict:
+        print(constant_type, end = ':')
+        constants = constant_dict[constant_type]
+        for constant in constants:
+            print(f" {constant}", end = '')
+        print("\n")
+
+    print("PREDICATES")
+    predicates = domain.predicates
+    for predicate in predicates:
+        print(predicate)
 
 if __name__ == "__main__":
     main()
