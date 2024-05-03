@@ -6,7 +6,8 @@ class Problem:
         parsed_problem = parse_problem(problem_path)
         self.objects = self.__store_objects(parsed_problem)
 
-    def __store_objects(self, parsed_problem, dict_obj = {}):
+    def __store_objects(self, parsed_problem):
+        dict_obj = {}
         for object in parsed_problem.objects:
             object_type = str(next(iter(object.type_tags)))
             if object_type not in dict_obj:
@@ -16,6 +17,9 @@ class Problem:
             instantiated_object = Object(object_name, object_type)
             dict_obj[object_type].append(instantiated_object)
         return dict_obj
+    
+    def get_objects(self):
+        return self.objects
 
 def main():
     problem_path = "../tests/examples/gripper3_2_balls.pddl"

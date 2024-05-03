@@ -7,7 +7,8 @@ class Domain:
         self.constants = self.__store_constants(parsed_domain)
         self.predicates = self.__store_predicates(parsed_domain)
 
-    def __store_constants(self, parsed_domain, dict_const = {}):
+    def __store_constants(self, parsed_domain):
+        dict_const = {}
         for constant in parsed_domain.constants:
             constant_type = str(next(iter(constant.type_tags)))
             if constant_type not in dict_const:
@@ -18,7 +19,7 @@ class Domain:
             dict_const[constant_type].append(constant)
         return dict_const
 
-    def __store_predicates(self, parsed_domain, dict_predicates = {}):
+    def __store_predicates(self, parsed_domain):
         predicates = []
         for predicate in parsed_domain.predicates:
             variable_types = []
@@ -29,6 +30,12 @@ class Domain:
             predicates.append(instantiated_predicate)
 
         return predicates
+    
+    def get_constants(self):
+        return self.constants
+    
+    def get_predicates(self):
+        return self.predicates
 
 def main():
     domain_path = "../tests/examples/gripper3.pddl"
