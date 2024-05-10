@@ -2,8 +2,7 @@ from pddl import parse_domain
 from custom_types import Object, Predicate
 
 class Domain:
-    def __init__(self, domain_path):
-        parsed_domain = parse_domain(domain_path)
+    def __init__(self, parsed_domain):
         self.constants = self.__store_constants(parsed_domain)
         self.predicates = self.__store_predicates(parsed_domain)
 
