@@ -11,6 +11,9 @@ class Object:
 
     def get_type(self):
         return self.type
+    
+    def __lt__(self, other):
+        return self.name < other.name
 
 class Predicate:
     def __init__(self, name: str, variable_types: list = []):
