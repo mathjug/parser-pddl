@@ -37,7 +37,7 @@ class Proposition:
     '''
     def __init__(self, predicate: Predicate, objects: list):
         self.predicate = predicate
-        self.objects = objects
+        self.objects = sorted(objects)
 
     def __str__(self):
         output = self.predicate.get_name()
@@ -49,6 +49,17 @@ class Proposition:
         for object in self.objects:
             names += "_" + object.get_name()
         return names
+    
+    def compare_names(self, predicate_name: str, objects_names: list):
+        if self.predicate.get_name() != predicate_name:
+            return False
+        objects_names = sorted(objects_names)
+        for i in range(len(self.objects)):
+            obj_name1 = objects_names[i]
+            obj_name2 = self.objects[i].get_name()
+            if obj_name1 != obj_name2:
+                return False
+        return True
 
     def get_predicate(self):
         return self.predicate
