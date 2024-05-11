@@ -2,8 +2,7 @@ from pddl import parse_problem
 from custom_types import Object
 
 class Problem:
-    def __init__(self, problem_path):
-        parsed_problem = parse_problem(problem_path)
+    def __init__(self, parsed_problem):
         self.objects = self.__store_objects(parsed_problem)
 
     def __store_objects(self, parsed_problem):
