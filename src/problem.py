@@ -3,6 +3,7 @@ from custom_types import Object
 
 class Problem:
     def __init__(self, parsed_problem):
+        self.name = parsed_problem.name
         self.objects = self.__store_objects(parsed_problem)
 
     def __store_objects(self, parsed_problem):
@@ -17,6 +18,9 @@ class Problem:
             dict_obj[object_type].append(instantiated_object)
         return dict_obj
     
+    def get_name(self):
+        return self.name
+
     def get_objects(self):
         return self.objects
 
