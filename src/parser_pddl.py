@@ -10,21 +10,35 @@ class Parser:
         parsed_domain = parse_domain(domain_path)
         self.problem = Problem(parsed_problem)
         self.domain = Domain(parsed_domain)
+        self.__store_basic_elements(parsed_problem)
+        with open("../output.txt", "x") as output_file:
+            self.__print_problem_name(output_file)
+            self.__print_propositions(output_file)
+            self.__print_initial_state(output_file)
+
+    def __print_problem_name(self, output_file):
+        output_file.write("begin_problem_name\n")
+        output_file.write(self.problem.get_name() + "\n")
+        output_file.write("end_problem_name\n\n")
+    
+    def __print_propositions(self, output_file):
+        output_file.write("begin_propositions\n")
+        output_file.write(str(len(self.propositions)) + "\n")
+        for i, proposition in enumerate(self.propositions):
+            output_file.write(str(proposition) + " " + str(i) + "\n")
+        output_file.write("end_propositions\n\n")
+
+    def __print_initial_state(self, output_file):
+        output_file.write("begin_initial_state\n")
+        output_file.write(str(len(self.initial_state)) + "\n")
+        for i, proposition in enumerate(self.initial_state):
+            output_file.write(str(i) + " " + str(proposition) + "\n")
+        output_file.write("end_initial_state\n\n")
+    
+    def __store_basic_elements(self, parsed_problem):
         self.objects = self.__merge_obj_const()
         self.propositions = self.__store_propositions()
-        self.initial_state = self.process_initial_state(parsed_problem.init)
-
-    def process_initial_state(self, parsed_initial):
-        initial_state = []
-        for parsed_prop in parsed_initial:
-            prop_name = parsed_prop.name
-            obj_names = []
-            for object in parsed_prop.terms:
-                obj_names.append(str(object.name))
-            for proposition in self.propositions:
-                if proposition.compare_names(prop_name, obj_names):
-                    initial_state.append(proposition)
-        return initial_state
+        self.initial_state = self.__process_initial_state(parsed_problem.init)
                 
     def __merge_obj_const(self):
         objects = self.problem.get_objects()
@@ -43,6 +57,18 @@ class Parser:
                 propositions.append(proposition)
 
         return propositions
+    
+    def __process_initial_state(self, parsed_initial):
+        initial_state = [0 for i in range(len(self.propositions))]
+        for parsed_prop in parsed_initial:
+            prop_name = parsed_prop.name
+            obj_names = []
+            for object in parsed_prop.terms:
+                obj_names.append(str(object.name))
+            for i, proposition in enumerate(self.propositions):
+                if proposition.compare_names(prop_name, obj_names):
+                    initial_state[i] = 1
+        return initial_state
     
     def __get_object_combinations(self, predicate):
         variable_types = predicate.get_variable_types()
@@ -64,9 +90,6 @@ def main():
     domain_path = "../tests/examples/gripper3.pddl"
     problem_path = "../tests/examples/gripper3_2_balls.pddl"
     parser = Parser(domain_path, problem_path)
-    initial_state = parser.get_initial_state()
-    for proposition in initial_state:
-        print(proposition)
 
 if __name__ == "__main__":
     main()
