@@ -9,18 +9,20 @@ sys.path.append("../tests/")
     ("./examples/gripper3.pddl", {"gripper": ["left","right"]})
     ])
 def test_constants_storage(domain_filename, expected):
-    domain = Domain(domain_filename)
+    domain = pddl.parse_domain(domain_filename)
+    domain = Domain(domain)
     answer = domain.constants
     for key in answer:
         answer[key] = [i.name for i in sorted(answer[key])]
-    
+
     assert answer == expected
 
 @pytest.mark.parametrize("domain_filename,expected", [
     ("./examples/gripper3.pddl", {"at-robby": ["room"],"at-ball": ["ball", "room"], "free": ["gripper"], "carry": ["ball", "gripper"], "whole": ["ball"],})
     ])
 def test_predicates_storage(domain_filename, expected):
-    domain = Domain(domain_filename)
+    domain = pddl.parse_domain(domain_filename)
+    domain = Domain(domain)
     predicates = domain.predicates
     answer = {}
     for item in predicates:
