@@ -24,5 +24,5 @@ def test_initial_state_storage(filenames, expected):
     parser = Parser(filenames[0],filenames[1])
     initial_state = parser.get_initial_state()
     ans = sorted([str(parser.propositions[i]) for i in range(len(parser.propositions)) if initial_state[i]])
-    assert ans
+    assert ans==expected
 
