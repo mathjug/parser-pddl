@@ -15,21 +15,21 @@ class Parser:
     def __print_problem_name(self, output_file):
         output_file.write("begin_problem_name\n")
         output_file.write(self.problem.get_name() + "\n")
-        output_file.write("end_problem_name\n\n")
+        output_file.write("end_problem_name\n")
 
     def __print_propositions(self, output_file):
         output_file.write("begin_propositions\n")
         output_file.write(str(len(self.propositions)) + "\n")
         for i, proposition in enumerate(self.propositions):
             output_file.write(str(proposition) + " " + str(i) + "\n")
-        output_file.write("end_propositions\n\n")
+        output_file.write("end_propositions\n")
 
     def __print_initial_state(self, output_file):
         output_file.write("begin_initial_state\n")
         output_file.write(str(len(self.initial_state)) + "\n")
         for i, proposition in enumerate(self.initial_state):
             output_file.write(str(i) + " " + str(proposition) + "\n")
-        output_file.write("end_initial_state\n\n")
+        output_file.write("end_initial_state\n")
 
     def __store_basic_elements(self, parsed_problem):
         self.objects = self.__merge_obj_const()
@@ -83,7 +83,7 @@ class Parser:
         return self.initial_state
 
     def print_bdds(self):
-        with open("../output.txt", "x") as output_file:
+        with open("../output.txt", "r+") as output_file:
             self.__print_problem_name(output_file)
             self.__print_propositions(output_file)
             self.__print_initial_state(output_file)
@@ -92,6 +92,7 @@ def main():
     domain_path = "../tests/examples/gripper3.pddl"
     problem_path = "../tests/examples/gripper3_2_balls.pddl"
     parser = Parser(domain_path, problem_path)
+    parser.print_bdds()
 
 if __name__ == "__main__":
     main()
