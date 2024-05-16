@@ -11,16 +11,12 @@ class Parser:
         self.problem = Problem(parsed_problem)
         self.domain = Domain(parsed_domain)
         self.__store_basic_elements(parsed_problem)
-        with open("../output.txt", "x") as output_file:
-            self.__print_problem_name(output_file)
-            self.__print_propositions(output_file)
-            self.__print_initial_state(output_file)
 
     def __print_problem_name(self, output_file):
         output_file.write("begin_problem_name\n")
         output_file.write(self.problem.get_name() + "\n")
         output_file.write("end_problem_name\n\n")
-    
+
     def __print_propositions(self, output_file):
         output_file.write("begin_propositions\n")
         output_file.write(str(len(self.propositions)) + "\n")
@@ -34,18 +30,18 @@ class Parser:
         for i, proposition in enumerate(self.initial_state):
             output_file.write(str(i) + " " + str(proposition) + "\n")
         output_file.write("end_initial_state\n\n")
-    
+
     def __store_basic_elements(self, parsed_problem):
         self.objects = self.__merge_obj_const()
         self.propositions = self.__store_propositions()
         self.initial_state = self.__process_initial_state(parsed_problem.init)
-                
+
     def __merge_obj_const(self):
         objects = self.problem.get_objects()
         constants = self.domain.get_constants()
         objects.update(constants)
         return objects
-    
+
     def __store_propositions(self):
         propositions = []
         predicates = self.domain.get_predicates()
@@ -57,7 +53,7 @@ class Parser:
                 propositions.append(proposition)
 
         return propositions
-    
+
     def __process_initial_state(self, parsed_initial):
         initial_state = [0 for i in range(len(self.propositions))]
         for parsed_prop in parsed_initial:
@@ -69,7 +65,7 @@ class Parser:
                 if proposition.compare_names(prop_name, obj_names):
                     initial_state[i] = 1
         return initial_state
-    
+
     def __get_object_combinations(self, predicate):
         variable_types = predicate.get_variable_types()
 
@@ -85,6 +81,12 @@ class Parser:
 
     def get_initial_state(self):
         return self.initial_state
+
+    def print_bdds(self):
+        with open("../output.txt", "x") as output_file:
+            self.__print_problem_name(output_file)
+            self.__print_propositions(output_file)
+            self.__print_initial_state(output_file)
 
 def main():
     domain_path = "../tests/examples/gripper3.pddl"
