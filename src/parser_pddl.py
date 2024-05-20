@@ -1,7 +1,7 @@
 from pddl import parse_domain, parse_problem
-from problem import Problem
-from domain import Domain
-from custom_types import Proposition
+from src.problem import Problem
+from src.domain import Domain
+from src.custom_types import Proposition
 import itertools
 
 class Parser:

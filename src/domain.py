@@ -1,5 +1,5 @@
 from pddl import parse_domain
-from custom_types import Object, Predicate
+from src.custom_types import Object, Predicate
 
 class Domain:
     def __init__(self, parsed_domain):

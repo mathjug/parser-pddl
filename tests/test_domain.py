@@ -1,12 +1,9 @@
 import pytest
 import pddl
-import sys
-sys.path.append("../src/")
-from domain import Domain
-sys.path.append("../tests/")
+from src.domain import Domain
 
 @pytest.mark.parametrize("domain_filename,expected", [
-    ("./examples/gripper3.pddl", {"gripper": ["left","right"]})
+    ("./tests/examples/gripper3.pddl", {"gripper": ["left","right"]})
     ])
 def test_constants_storage(domain_filename, expected):
     domain = pddl.parse_domain(domain_filename)
@@ -18,7 +15,7 @@ def test_constants_storage(domain_filename, expected):
     assert answer == expected
 
 @pytest.mark.parametrize("domain_filename,expected", [
-    ("./examples/gripper3.pddl", {"at-robby": ["room"],"at-ball": ["ball", "room"], "free": ["gripper"], "carry": ["ball", "gripper"], "whole": ["ball"],})
+    ("./tests/examples/gripper3.pddl", {"at-robby": ["room"],"at-ball": ["ball", "room"], "free": ["gripper"], "carry": ["ball", "gripper"], "whole": ["ball"],})
     ])
 def test_predicates_storage(domain_filename, expected):
     domain = pddl.parse_domain(domain_filename)
