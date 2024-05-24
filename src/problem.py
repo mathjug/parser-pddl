@@ -1,5 +1,5 @@
 from pddl import parse_problem
-from src.custom_types import Object
+from custom_types import Object
 
 class Problem:
     def __init__(self, parsed_problem):
@@ -26,7 +26,8 @@ class Problem:
 
 def main():
     problem_path = "../tests/examples/gripper3_2_balls.pddl"
-    problem = Problem(problem_path)
+    parsed_problem = parse_problem(problem_path)
+    problem = Problem(parsed_problem)
 
     object_dict = problem.objects
     for object_type in object_dict:

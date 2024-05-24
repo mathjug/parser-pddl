@@ -1,5 +1,5 @@
 from pddl import parse_domain
-from src.custom_types import Object, Predicate
+from custom_types import Object, Predicate
 
 class Domain:
     def __init__(self, parsed_domain):
@@ -38,7 +38,8 @@ class Domain:
 
 def main():
     domain_path = "../tests/examples/gripper3.pddl"
-    domain = Domain(domain_path)
+    parsed_domain = parse_domain(domain_path)
+    domain = Domain(parsed_domain)
 
     print("CONSTANTS")
     constant_dict = domain.constants

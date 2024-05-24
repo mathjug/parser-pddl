@@ -1,7 +1,7 @@
 from pddl import parse_domain, parse_problem
-from src.problem import Problem
-from src.domain import Domain
-from src.custom_types import Proposition
+from problem import Problem
+from domain import Domain
+from custom_types import Proposition
 import itertools
 
 class Parser:
@@ -82,8 +82,8 @@ class Parser:
     def get_initial_state(self):
         return self.initial_state
 
-    def print_bdds(self):
-        with open("../output.txt", "r+") as output_file:
+    def print_bdds(self, output_file):
+        with open(output_file, 'w') as output_file:
             self.__print_problem_name(output_file)
             self.__print_propositions(output_file)
             self.__print_initial_state(output_file)
@@ -92,7 +92,8 @@ def main():
     domain_path = "../tests/examples/gripper3.pddl"
     problem_path = "../tests/examples/gripper3_2_balls.pddl"
     parser = Parser(domain_path, problem_path)
-    parser.print_bdds()
+    output_file = "../output.txt"
+    parser.print_bdds(output_file)
 
 if __name__ == "__main__":
     main()
