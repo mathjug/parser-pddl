@@ -30,11 +30,19 @@ class Parser:
         for i, proposition in enumerate(self.initial_state):
             output_file.write(str(i) + " " + str(proposition) + "\n")
         output_file.write("end_initial_state\n")
+    
+    def __print_goal_state(self, output_file):
+        output_file.write("begin_goal_state\n")
+        for i, proposition in enumerate(self.goal_state):
+            if(self.goal_state[i] != -1):
+                output_file.write(str(i) + " " + str(self.goal_state[i]) +  "\n")
+        output_file.write("end_goal_state\n")
 
     def __store_basic_elements(self, parsed_problem):
         self.objects = self.__merge_obj_const()
         self.propositions = self.__store_propositions()
-        self.initial_state = self.__process_initial_state(parsed_problem.init)
+        self.initial_state = self.__process_state(parsed_problem.init, 0)
+        self.goal_state = self.__process_state(parsed_problem.goal.operands, -1)
 
     def __merge_obj_const(self):
         objects = self.problem.get_objects()
@@ -54,17 +62,27 @@ class Parser:
 
         return propositions
 
-    def __process_initial_state(self, parsed_initial):
-        initial_state = [0 for i in range(len(self.propositions))]
-        for parsed_prop in parsed_initial:
-            prop_name = parsed_prop.name
-            obj_names = []
-            for object in parsed_prop.terms:
-                obj_names.append(str(object.name))
+    def __is_proposition_negated(self, parsed_prop):
+        return (str(type(parsed_prop)) == "<class 'pddl.logic.base.Not'>")
+
+    def __build_proposition_names(self, parsed_prop, is_negated):
+        low = 1
+        high = -1
+        if is_negated:
+            low = 6
+            high = -2
+
+        return '_'.join(str(parsed_prop)[low:high].split())
+    
+    def __process_state(self, parsed_state, default_value):
+        state = [default_value for i in range(len(self.propositions))]
+        for parsed_prop in parsed_state:
+            prop_is_negated = self.__is_proposition_negated(parsed_prop)
+            prop_names = self.__build_proposition_names(parsed_prop, prop_is_negated)
             for i, proposition in enumerate(self.propositions):
-                if proposition.compare_names(prop_name, obj_names):
-                    initial_state[i] = 1
-        return initial_state
+                if proposition.compare_names(prop_names):
+                    state[i] = 0 if prop_is_negated else 1
+        return state
 
     def __get_object_combinations(self, predicate):
         variable_types = predicate.get_variable_types()
@@ -81,12 +99,16 @@ class Parser:
 
     def get_initial_state(self):
         return self.initial_state
+    
+    def get_goal_state(self):
+        return self.goal_state
 
     def print_bdds(self, output_file):
         with open(output_file, 'w') as output_file:
             self.__print_problem_name(output_file)
             self.__print_propositions(output_file)
             self.__print_initial_state(output_file)
+            self.__print_goal_state(output_file)
 
 def main():
     domain_path = "../tests/examples/gripper3.pddl"
