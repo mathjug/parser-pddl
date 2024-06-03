@@ -30,7 +30,7 @@ class Parser:
         for i, proposition in enumerate(self.initial_state):
             output_file.write(str(i) + " " + str(proposition) + "\n")
         output_file.write("end_initial_state\n")
-    
+
     def __print_goal_state(self, output_file):
         output_file.write("begin_goal_state\n")
         for i, proposition in enumerate(self.goal_state):
@@ -73,7 +73,7 @@ class Parser:
             high = -2
 
         return '_'.join(str(parsed_prop)[low:high].split())
-    
+
     def __process_state(self, parsed_state, default_value):
         state = [default_value for i in range(len(self.propositions))]
         for parsed_prop in parsed_state:
@@ -99,7 +99,7 @@ class Parser:
 
     def get_initial_state(self):
         return self.initial_state
-    
+
     def get_goal_state(self):
         return self.goal_state
 
