@@ -17,6 +17,7 @@ class Domain:
             constant_name = repr(constant)[9:-1]
             constant = Object(constant_name, constant_type)
             dict_const[constant_type].append(constant)
+
         return dict_const
 
     def __store_predicates(self, parsed_domain):

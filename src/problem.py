@@ -16,8 +16,9 @@ class Problem:
             object_name = repr(object)[9:-1]
             instantiated_object = Object(object_name, object_type)
             dict_obj[object_type].append(instantiated_object)
+
         return dict_obj
-    
+
     def get_name(self):
         return self.name
 

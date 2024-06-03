@@ -44,6 +44,7 @@ class Proposition:
 
     def __str__(self):
         output = self.__get_object_names()
+
         return output
 
     def __get_object_names(self):
@@ -51,11 +52,13 @@ class Proposition:
         for object in self.objects:
             names += "_" + object.get_name()
         names = self.predicate.get_name() + names
+
         return names
 
     def compare_names(self, prop_names: str):
         if prop_names == self.__get_object_names():
             return True
+
         return False
 
     def get_predicate(self):

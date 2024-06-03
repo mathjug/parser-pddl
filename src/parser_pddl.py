@@ -48,6 +48,7 @@ class Parser:
         objects = self.problem.get_objects()
         constants = self.domain.get_constants()
         objects.update(constants)
+
         return objects
 
     def __store_propositions(self):
