@@ -69,16 +69,16 @@ class Proposition:
 
 class Action:
     def __init__(self, name: str, preconditions: list[(Proposition, bool)],
-                 effects: list[(Proposition, bool)]) -> None:
+                 effects: list[list[(Proposition, bool)]]) -> None:
         self.name = name
         self.preconditions = preconditions[:]
         self.effects = effects[:]
 
-    def get_name(self):
+    def get_name(self) -> str:
         return self.name
 
-    def get_preconditions(self) -> list[(Predicate, bool)]:
+    def get_preconditions(self) -> list[(Proposition, bool)]:
         return self.preconditions
 
-    def get_effects(self) -> list[list[(Predicate, bool)]]:
+    def get_effects(self) -> list[list[(Proposition, bool)]]:
         return self.effects
