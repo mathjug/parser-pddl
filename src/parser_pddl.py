@@ -11,6 +11,7 @@ class Parser:
         self.problem = Problem(parsed_problem)
         self.domain = Domain(parsed_domain)
         self.__store_basic_elements(parsed_problem)
+        self.actions = self.domain.get_actions()
 
     def __print_problem_name(self, output_file):
         output_file.write("begin_problem_name\n")
@@ -55,7 +56,7 @@ class Parser:
         propositions = []
         predicates = self.domain.get_predicates()
 
-        for predicate in predicates:
+        for _, predicate in predicates.items():
             object_combinations = self.__get_object_combinations(predicate)
             for obj_combination in object_combinations:
                 proposition = Proposition(predicate, list(obj_combination))
@@ -103,6 +104,9 @@ class Parser:
 
     def get_goal_state(self):
         return self.goal_state
+    
+    def get_actions(self):
+        return self.actions
 
     def print_bdds(self, output_file):
         with open(output_file, 'w') as output_file:
@@ -117,6 +121,21 @@ def main():
     parser = Parser(domain_path, problem_path)
     output_file = "../output.txt"
     parser.print_bdds(output_file)
+
+    actions = parser.get_actions()
+    for _, action in actions.items():
+        print("\n=======================================")
+        print("Action:", action.get_name())
+        print("\n=> Preconditions")
+        for precondition in action.get_preconditions():
+            prop, bool_value = precondition
+            print(prop, bool_value)
+        print("\n=> Effects")
+        for i, possible_effect_scenario in enumerate(action.get_effects()):
+            print("\n==> Scenario", i)
+            for effect in possible_effect_scenario:
+                prop, bool_value = effect
+                print(prop, bool_value)
 
 if __name__ == "__main__":
     main()
