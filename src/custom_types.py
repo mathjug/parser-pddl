@@ -1,6 +1,5 @@
 from typing import Any
 
-
 class Object:
     def __init__(self, name: str, type: str):
         self.name = name

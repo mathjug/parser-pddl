@@ -94,8 +94,8 @@ class Domain:
             for object in predicate.terms:
                 variable_types.append(str(next(iter(object.type_tags))))
 
-            instantiated_predicate = Predicate(predicate.name, variable_types)
-            predicates[predicate.name] = instantiated_predicate
+            predicate_object = Predicate(predicate.name, variable_types)
+            predicates[predicate.name] = predicate_object
 
         return predicates
 
