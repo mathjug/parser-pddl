@@ -1,6 +1,5 @@
 from typing import Any
 
-
 class Object:
     def __init__(self, name: str, type: str):
         self.name = name
@@ -68,17 +67,17 @@ class Proposition:
         return self.objects
 
 class Action:
-    def __init__(self, name: str, objects_type: list[str], preconditions: list[(Predicate, bool)], effects: list[(Predicate, bool)]) -> None:
+    def __init__(self, name: str, preconditions: list[(Proposition, bool)],
+                 effects: list[list[(Proposition, bool)]]) -> None:
         self.name = name
-        self.objects_type = objects_type[:]
         self.preconditions = preconditions[:]
         self.effects = effects[:]
 
-    def objects_type(self) -> list[str]:
-        return self.objects_type
+    def get_name(self) -> str:
+        return self.name
 
-    def get_preconditions(self) -> list[(Predicate, bool)]:
+    def get_preconditions(self) -> list[(Proposition, bool)]:
         return self.preconditions
 
-    def get_effects(self) -> list[(Predicate, bool)]:
+    def get_effects(self) -> list[list[(Proposition, bool)]]:
         return self.effects
