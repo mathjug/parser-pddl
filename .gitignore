@@ -1,3 +1,6 @@
 *__pycache__*
 *pyPDDLtest.py
 *.DS_Store
+tests/examples/ex
+create_test.py
+output.txt

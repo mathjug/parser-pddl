@@ -1,11 +1,11 @@
 from pddl import parse_domain
-from custom_types import Object, Predicate
+from src.custom_types import Object, Predicate
 
 class Domain:
     def __init__(self, parsed_domain):
         self.constants = self.__store_constants(parsed_domain)
         self.predicates = self.__store_predicates(parsed_domain)
-        self.actions = self.__store_actions(parsed_domain)
+        #self.actions = self.__store_actions(parsed_domain)
 
     def __store_constants(self, parsed_domain):
         dict_const = {}

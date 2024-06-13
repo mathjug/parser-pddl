@@ -1,7 +1,7 @@
 from pddl import parse_domain, parse_problem
-from problem import Problem
-from domain import Domain
-from custom_types import Proposition
+from src.problem import Problem
+from src.domain import Domain
+from src.custom_types import Proposition
 import itertools
 
 class Parser:
@@ -42,7 +42,7 @@ class Parser:
         self.objects = self.__merge_obj_const()
         self.propositions = self.__store_propositions()
         self.initial_state = self.__process_state(parsed_problem.init, 0)
-        self.goal_state = self.__process_state(parsed_problem.goal.operands, -1)
+        self.goal_state = self.__process_state(parsed_problem.goal, -1)
 
     def __merge_obj_const(self):
         objects = self.problem.get_objects()
@@ -76,6 +76,10 @@ class Parser:
         return '_'.join(str(parsed_prop)[low:high].split())
 
     def __process_state(self, parsed_state, default_value):
+        if (str(type(parsed_state)) == "<class 'pddl.logic.base.And'>" ):
+            parsed_state = parsed_state.operands
+        elif (str(type(parsed_state)) == "<class 'pddl.logic.predicates.Predicate'>"):
+            parsed_state = (parsed_state,)
         state = [default_value for i in range(len(self.propositions))]
         for parsed_prop in parsed_state:
             prop_is_negated = self.__is_proposition_negated(parsed_prop)
@@ -93,7 +97,11 @@ class Parser:
             objects_of_type = self.objects.get(variable_type, [])
             object_combinations.append(objects_of_type)
 
-        return itertools.product(*object_combinations)
+        all_products = itertools.product(*object_combinations)
+
+        unique_products = [tup for tup in all_products if len(tup) == len(set(tup))]
+    
+        return unique_products
 
     def get_propositions(self):
         return self.propositions
