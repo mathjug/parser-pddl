@@ -32,6 +32,14 @@ class Predicate:
     def get_variable_types(self):
         return self.variable_types
 
+    def __eq__(self, other):
+        if isinstance(other, Predicate):
+            return self.name == other.name
+        return False
+
+    def __hash__(self):
+        return hash(self.name)
+
 class Proposition:
     '''
     Implementation of a proposition, which is an instantiation of a predicate with the
