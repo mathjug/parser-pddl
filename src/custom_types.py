@@ -47,25 +47,27 @@ class Proposition:
     '''
     def __init__(self, predicate: Predicate, objects: list[Object]):
         self.predicate = predicate
-        self.objects = objects
+        self.objects = objects[:]
+        self.name = self.__build_proposition_name()
 
     def __str__(self):
-        output = self.__get_object_names()
+        return self.name
+    
+    def __eq__(self, other):
+        if isinstance(other, Proposition):
+            return self.name == other.name
+        return False
 
-        return output
-
-    def __get_object_names(self):
+    def __build_proposition_name(self):
         names = ""
         for object in self.objects:
             names += "_" + object.get_name()
         names = self.predicate.get_name() + names
-
         return names
 
-    def compare_names(self, prop_names: str):
-        if prop_names == self.__get_object_names():
+    def compare_names(self, prop_name: str):
+        if prop_name == self.name:
             return True
-
         return False
 
     def get_predicate(self):

@@ -8,13 +8,24 @@ class Domain:
         self.actions = self.__store_actions(parsed_domain, self.predicates)
     
     def __store_actions(self, parsed_domain, stored_predicates):
-        dict_actions = {}
+        actions = []
+        pred_to_actions = {}
         for action in parsed_domain.actions:
             action_name = action.name
             preconditions = self.__store_preconditions_of_action(action, stored_predicates)
             all_possible_effects = self.__store_effects_of_action(action, stored_predicates)
-            dict_actions[action_name] = Action(action_name, preconditions, all_possible_effects)
-        return dict_actions
+            action = Action(action_name, preconditions, all_possible_effects)
+            actions.append(action)
+            pred_to_actions = self.__store_actions_by_preconditions(action, pred_to_actions)
+        return actions, pred_to_actions
+
+    def __store_actions_by_preconditions(self, action, pred_to_actions):
+        preconditions = action.get_preconditions()
+        for precondition in preconditions:
+            if precondition not in pred_to_actions:
+                pred_to_actions[precondition] = []
+            pred_to_actions[precondition].append(action)
+        return pred_to_actions
 
     def __store_preconditions_of_action(self, action, stored_predicates):
         if hasattr(action.precondition, "operands"): # multiple preconditions
