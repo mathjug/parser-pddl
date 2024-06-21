@@ -17,16 +17,11 @@ class Domain:
             action_effect = action.effect
             self.__store_effects_of_action(action_effect, stored_predicates,
                                                                   all_possible_effects)
-            effects = self.__check_list_size(all_possible_effects)
+            effects = self.__merge_effects(all_possible_effects)
             action = Action(action_name, preconditions, effects)
             actions.append(action)
             pred_to_actions = self.__store_actions_by_preconditions(action, pred_to_actions)
         return actions, pred_to_actions
-
-    def __check_list_size(self, effects):
-        if len(effects) == 1 and type(effects[0]) == list:
-            return effects[0]
-        return effects
 
     def __store_actions_by_preconditions(self, action, pred_to_actions):
         preconditions = action.get_preconditions()
@@ -60,17 +55,33 @@ class Domain:
             if effects_type == "<class 'pddl.logic.base.OneOf'>":
                 non_deterministic_effect = []
                 for possible_effect in action_effects.operands:
-                    teste = []
+                    scenario = []
                     self.__store_effects_of_action(possible_effect, stored_predicates,
-                                                            teste)
-                    non_deterministic_effect.append(teste)
+                                                            scenario)
+                    non_deterministic_effect.append(scenario)
                 all_possible_effects.append(non_deterministic_effect)
                  
             else:
                 for possible_effect in action_effects.operands:
                     self.__store_effects_of_action(possible_effect, stored_predicates,
                                                                  all_possible_effects)
-    
+
+    def __merge_effects(self, effects):
+        deterministic_effects = []
+        non_deterministic_effects = []
+        for effect in effects:
+            if type(effect) == list:
+                for effect_scenario in effect:
+                    non_deterministic_effects.append(effect_scenario)
+            else:
+                deterministic_effects.append(effect)
+        if(len(non_deterministic_effects) == 0):
+            return deterministic_effects       
+        effects = []
+        for effect in non_deterministic_effects:
+            effects.append(effect + deterministic_effects)
+        return effects
+            
     def __store_one_effect_or_precondition_predicate(self, pred, stored_predicates):
         pred, bool_value = self.__get_predicate_and_boolean_value(pred)
         predicate = stored_predicates[pred.name]
