@@ -53,6 +53,9 @@ class Proposition:
     def __str__(self):
         return self.name
     
+    def __repr__(self) -> str:
+        return self.name
+    
     def __eq__(self, other):
         if isinstance(other, Proposition):
             return self.name == other.name

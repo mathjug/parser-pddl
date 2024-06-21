@@ -11,20 +11,30 @@ class Domain:
         actions = []
         pred_to_actions = {}
         for action in parsed_domain.actions:
+            all_possible_effects = []
             action_name = action.name
             preconditions = self.__store_preconditions_of_action(action, stored_predicates)
-            all_possible_effects = self.__store_effects_of_action(action, stored_predicates)
-            action = Action(action_name, preconditions, all_possible_effects)
+            action_effect = action.effect
+            self.__store_effects_of_action(action_effect, stored_predicates,
+                                                                  all_possible_effects)
+            effects = self.__check_list_size(all_possible_effects)
+            action = Action(action_name, preconditions, effects)
             actions.append(action)
             pred_to_actions = self.__store_actions_by_preconditions(action, pred_to_actions)
         return actions, pred_to_actions
 
+    def __check_list_size(self, effects):
+        if len(effects) == 1 and type(effects[0]) == list:
+            return effects[0]
+        return effects
+
     def __store_actions_by_preconditions(self, action, pred_to_actions):
         preconditions = action.get_preconditions()
         for precondition in preconditions:
-            if precondition not in pred_to_actions:
-                pred_to_actions[precondition] = []
-            pred_to_actions[precondition].append(action)
+            precondition_predicate = precondition[0].get_predicate()
+            if precondition_predicate not in pred_to_actions:
+                pred_to_actions[precondition_predicate] = []
+            pred_to_actions[precondition_predicate].append(action)
         return pred_to_actions
 
     def __store_preconditions_of_action(self, action, stored_predicates):
@@ -39,24 +49,27 @@ class Domain:
             processed_preconditions.append(proposition_with_bool)
         return processed_preconditions
     
-    def __store_effects_of_action(self, action, stored_predicates):
-        action_effects = action.effect
+    def __store_effects_of_action(self, action_effects, stored_predicates, all_possible_effects = []):
         effects_type = str(type(action_effects))
-        all_possible_effects = []
 
-        if effects_type == "<class 'pddl.logic.effects.AndEffect'>":
-            deterministic_effect = self.__store_one_effect_scenario(action_effects, stored_predicates)
-            all_possible_effects.append(deterministic_effect)
-        elif effects_type == "<class 'pddl.logic.base.OneOf'>":
-            for possible_effect in action_effects.operands:
-                non_deterministic_effect = self.__store_one_effect_scenario(possible_effect,
-                                                                            stored_predicates)
-                all_possible_effects.append(non_deterministic_effect)
-        elif not hasattr(action_effects, "operands"):
+        if not hasattr(action_effects, "operands"):
             proposition_with_bool = self.__store_one_effect_or_precondition_predicate(
                                                 action_effects, stored_predicates)
-            all_possible_effects.append([proposition_with_bool])
-        return all_possible_effects
+            all_possible_effects.append(proposition_with_bool)
+        else:
+            if effects_type == "<class 'pddl.logic.base.OneOf'>":
+                non_deterministic_effect = []
+                for possible_effect in action_effects.operands:
+                    teste = []
+                    self.__store_effects_of_action(possible_effect, stored_predicates,
+                                                            teste)
+                    non_deterministic_effect.append(teste)
+                all_possible_effects.append(non_deterministic_effect)
+                 
+            else:
+                for possible_effect in action_effects.operands:
+                    self.__store_effects_of_action(possible_effect, stored_predicates,
+                                                                 all_possible_effects)
     
     def __store_one_effect_or_precondition_predicate(self, pred, stored_predicates):
         pred, bool_value = self.__get_predicate_and_boolean_value(pred)
@@ -69,14 +82,6 @@ class Domain:
         proposition = Proposition(predicate, objects)
         proposition_with_bool = (proposition, bool_value)
         return proposition_with_bool
-    
-    def __store_one_effect_scenario(self, action_effects, stored_predicates):
-        effect_scenario = []
-        for pred in action_effects.operands:
-            proposition_with_bool = self.__store_one_effect_or_precondition_predicate(
-                                                pred, stored_predicates)
-            effect_scenario.append(proposition_with_bool)
-        return effect_scenario
     
     def __get_predicate_and_boolean_value(self, proposition):
         bool_value = True

@@ -28,7 +28,7 @@ def test_predicates_storage(domain_filename, expected):
     domain = Domain(domain)
     predicates = domain.predicates
     answer = {}
-    for item in predicates:
-        answer[item.name] = sorted(item.variable_types)
+    for name, predicate in predicates.items():
+        answer[predicate.name] = sorted(predicate.variable_types)
 
     assert answer == expected
