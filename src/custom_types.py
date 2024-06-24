@@ -45,10 +45,11 @@ class Proposition:
     Implementation of a proposition, which is an instantiation of a predicate with the
     objects involved.
     '''
-    def __init__(self, predicate: Predicate, objects: list[Object]):
+    def __init__(self, predicate: Predicate, objects: list[Object], index: int):
         self.predicate = predicate
         self.objects = objects[:]
         self.name = self.__build_proposition_name()
+        self.index = index
 
     def __str__(self):
         return self.name
@@ -78,6 +79,9 @@ class Proposition:
 
     def get_objects(self):
         return self.objects
+    
+    def get_index(self):
+        return self.index
 
 class Action:
     def __init__(self, name: str, preconditions: list[(Proposition, bool)],

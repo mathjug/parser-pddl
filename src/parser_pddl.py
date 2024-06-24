@@ -59,7 +59,7 @@ class Parser:
         for _, predicate in predicates.items():
             object_combinations = self.__get_object_combinations(predicate)
             for obj_combination in object_combinations:
-                proposition = Proposition(predicate, list(obj_combination))
+                proposition = Proposition(predicate, list(obj_combination), len(propositions))
                 propositions.append(proposition)
 
         return propositions

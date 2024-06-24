@@ -5,7 +5,7 @@ class Domain:
     def __init__(self, parsed_domain):
         self.constants = self.__store_constants(parsed_domain)
         self.predicates = self.__store_predicates(parsed_domain)
-        self.actions = self.__store_actions(parsed_domain, self.predicates)
+        self.actions, self.pred_to_actions = self.__store_actions(parsed_domain, self.predicates)
     
     def __store_actions(self, parsed_domain, stored_predicates):
         actions = []
@@ -134,6 +134,9 @@ class Domain:
 
     def get_actions(self):
         return self.actions
+    
+    def get_pred_to_actions(self):
+        return self.pred_to_actions
 
 def main():
     domain_path = "../tests/examples/gripper3.pddl"
