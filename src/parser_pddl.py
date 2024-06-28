@@ -41,7 +41,7 @@ class Parser:
 
     def __store_basic_elements(self, parsed_problem):
         self.objects = self.__merge_obj_const()
-        self.propositions = self.__store_propositions()
+        self.propositions, self.dict_propositions = self.__store_propositions()
         self.initial_state = self.__process_state(parsed_problem.init, 0)
         self.goal_state = self.__process_state(parsed_problem.goal, -1)
 
@@ -54,6 +54,7 @@ class Parser:
 
     def __store_propositions(self):
         propositions = []
+        dict_propositions = {}
         predicates = self.domain.get_predicates()
 
         for _, predicate in predicates.items():
@@ -61,8 +62,9 @@ class Parser:
             for obj_combination in object_combinations:
                 proposition = Proposition(predicate, list(obj_combination), len(propositions))
                 propositions.append(proposition)
+                dict_propositions[str(proposition)] = proposition
 
-        return propositions
+        return propositions, dict_propositions
 
     def __is_proposition_negated(self, parsed_prop):
         return (str(type(parsed_prop)) == "<class 'pddl.logic.base.Not'>")
@@ -106,6 +108,9 @@ class Parser:
 
     def get_propositions(self):
         return self.propositions
+    
+    def get_dict_propositions(self):
+        return self.dict_propositions
 
     def get_initial_state(self):
         return self.initial_state
