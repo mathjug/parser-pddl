@@ -13,15 +13,25 @@ class Domain:
         for action in parsed_domain.actions:
             all_possible_effects = []
             action_name = action.name
+            parameters = self.__process_action_arguments(action)
             preconditions = self.__store_preconditions_of_action(action, stored_predicates)
             action_effect = action.effect
             self.__store_effects_of_action(action_effect, stored_predicates,
                                                                   all_possible_effects)
             effects = self.__merge_effects(all_possible_effects)
-            action = Action(action_name, preconditions, effects)
+            action = Action(action_name, parameters, preconditions, effects)
             actions.append(action)
             pred_to_actions = self.__store_actions_by_preconditions(action, pred_to_actions)
         return actions, pred_to_actions
+
+    def __process_action_arguments(self, action):
+        parameters = []
+        action_arguments = action.parameters
+        for argument in action_arguments:
+            argument_name = argument.name
+            argument_type = argument.type_tags
+            parameters.append(Object(argument_name, argument_type))
+        return parameters
 
     def __store_actions_by_preconditions(self, action, pred_to_actions):
         preconditions = action.get_preconditions()
