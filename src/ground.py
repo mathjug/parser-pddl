@@ -1,4 +1,4 @@
-from custom_types import Proposition, Action, Predicate
+from src import Proposition, Action, Predicate
 from collections import deque
 
 def store_initial_queue(initial_state: list[int], propositions: list[Proposition]):

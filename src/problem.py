@@ -1,5 +1,5 @@
 from pddl import parse_problem
-from src.custom_types import Object
+from src import Object
 
 class Problem:
     def __init__(self, parsed_problem):

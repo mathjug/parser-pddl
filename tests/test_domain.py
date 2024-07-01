@@ -1,6 +1,6 @@
 import pytest
 import pddl
-from src.domain import Domain
+from src import Domain
 
 @pytest.mark.parametrize("domain_filename,expected", [
     ("./tests/examples/gripper3.pddl", {"gripper": ["left","right"]}),

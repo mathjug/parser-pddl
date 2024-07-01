@@ -1,7 +1,5 @@
 from pddl import parse_domain, parse_problem
-from src.problem import Problem
-from src.domain import Domain
-from src.custom_types import Proposition
+from src import Problem, Domain, Proposition
 import itertools
 
 class Parser:
@@ -103,12 +101,12 @@ class Parser:
         all_products = itertools.product(*object_combinations)
 
         unique_products = [tup for tup in all_products if len(tup) == len(set(tup))]
-    
+
         return unique_products
 
     def get_propositions(self):
         return self.propositions
-    
+
     def get_dict_propositions(self):
         return self.dict_propositions
 
@@ -117,7 +115,7 @@ class Parser:
 
     def get_goal_state(self):
         return self.goal_state
-    
+
     def get_actions(self):
         return self.actions
 

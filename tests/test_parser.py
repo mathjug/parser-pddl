@@ -1,6 +1,6 @@
 import pytest
 import pddl
-from src.parser_pddl import Parser
+from src import Parser
 
 @pytest.mark.parametrize("filenames,expected", [
     (["./tests/examples/gripper3.pddl","./tests/examples/gripper3_2_balls.pddl"],

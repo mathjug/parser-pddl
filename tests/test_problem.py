@@ -1,6 +1,6 @@
 import pytest
 import pddl
-from src.problem import Problem
+from src import Problem
 
 @pytest.mark.parametrize("problem_filename,expected", [
     ("./tests/examples/gripper3_2_balls.pddl", {"room": ["rooma","roomb"], "ball" : ["ball1","ball2"]}),

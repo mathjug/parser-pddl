@@ -1,12 +1,12 @@
 from pddl import parse_domain
-from src.custom_types import Object, Predicate, Action, Proposition
+from src import Object, Predicate, Action, Proposition
 
 class Domain:
     def __init__(self, parsed_domain):
         self.constants = self.__store_constants(parsed_domain)
         self.predicates = self.__store_predicates(parsed_domain)
         self.actions, self.pred_to_actions = self.__store_actions(parsed_domain, self.predicates)
-    
+
     def __store_actions(self, parsed_domain, stored_predicates):
         actions = []
         pred_to_actions = {}
@@ -53,7 +53,7 @@ class Domain:
                                             precondition, stored_predicates)
             processed_preconditions.append(proposition_with_bool)
         return processed_preconditions
-    
+
     def __store_effects_of_action(self, action_effects, stored_predicates, all_possible_effects = []):
         effects_type = str(type(action_effects))
 
@@ -70,7 +70,7 @@ class Domain:
                                                             scenario)
                     non_deterministic_effect.append(scenario)
                 all_possible_effects.append(non_deterministic_effect)
-                 
+
             else:
                 for possible_effect in action_effects.operands:
                     self.__store_effects_of_action(possible_effect, stored_predicates,
@@ -86,12 +86,12 @@ class Domain:
             else:
                 deterministic_effects.append(effect)
         if(len(non_deterministic_effects) == 0):
-            return deterministic_effects       
+            return deterministic_effects
         effects = []
         for effect in non_deterministic_effects:
             effects.append(effect + deterministic_effects)
         return effects
-            
+
     def __store_one_effect_or_precondition_predicate(self, pred, stored_predicates):
         pred, bool_value = self.__get_predicate_and_boolean_value(pred)
         predicate = stored_predicates[pred.name]
@@ -103,7 +103,7 @@ class Domain:
         proposition = Proposition(predicate, objects)
         proposition_with_bool = (proposition, bool_value)
         return proposition_with_bool
-    
+
     def __get_predicate_and_boolean_value(self, proposition):
         bool_value = True
         if str(type(proposition)) == "<class 'pddl.logic.base.Not'>":
@@ -144,7 +144,7 @@ class Domain:
 
     def get_actions(self):
         return self.actions
-    
+
     def get_pred_to_actions(self):
         return self.pred_to_actions
 
