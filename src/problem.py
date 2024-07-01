@@ -8,15 +8,13 @@ class Problem:
 
     def __store_objects(self, parsed_problem):
         dict_obj = {}
-        for object in parsed_problem.objects:
-            object_type = str(next(iter(object.type_tags)))
+        for parsed_object in parsed_problem.objects:
+            object_type = str(next(iter(parsed_object.type_tags)))
             if object_type not in dict_obj:
                 dict_obj[object_type] = []
-
-            object_name = repr(object)[9:-1]
-            instantiated_object = Object(object_name, object_type)
-            dict_obj[object_type].append(instantiated_object)
-
+            object_name = parsed_object.name
+            object = Object(object_name, object_type)
+            dict_obj[object_type].append(object)
         return dict_obj
 
     def get_name(self):
@@ -24,19 +22,3 @@ class Problem:
 
     def get_objects(self):
         return self.objects
-
-def main():
-    problem_path = "../tests/examples/gripper3_2_balls.pddl"
-    parsed_problem = parse_problem(problem_path)
-    problem = Problem(parsed_problem)
-
-    object_dict = problem.objects
-    for object_type in object_dict:
-        print(object_type)
-        objects = object_dict[object_type]
-        for object in objects:
-            print(f"\t{object}")
-        print()
-
-if __name__ == "__main__":
-    main()

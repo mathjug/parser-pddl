@@ -1,5 +1,3 @@
-from typing import Any
-
 class Object:
     def __init__(self, name: str, type: str):
         self.name = name
@@ -8,14 +6,14 @@ class Object:
     def __str__(self):
         return self.name
 
+    def __lt__(self, other):
+        return self.name < other.name
+
     def get_name(self):
         return self.name
 
     def get_type(self):
         return self.type
-
-    def __lt__(self, other):
-        return self.name < other.name
 
 class Predicate:
     def __init__(self, name: str, variable_types: list[str] = []):
@@ -26,12 +24,6 @@ class Predicate:
         output = self.name + " " + str(self.variable_types)
         return output
 
-    def get_name(self):
-        return self.name
-
-    def get_variable_types(self):
-        return self.variable_types
-
     def __eq__(self, other):
         if isinstance(other, Predicate):
             return self.name == other.name
@@ -39,6 +31,12 @@ class Predicate:
 
     def __hash__(self):
         return hash(self.name)
+
+    def get_name(self):
+        return self.name
+
+    def get_variable_types(self):
+        return self.variable_types
 
 class Proposition:
     '''
