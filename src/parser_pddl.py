@@ -127,28 +127,3 @@ class Parser:
             self.__print_propositions(output_file)
             self.__print_initial_state(output_file)
             self.__print_goal_state(output_file)
-
-def main():
-    domain_path = "../tests/examples/gripper3.pddl"
-    problem_path = "../tests/examples/gripper3_2_balls.pddl"
-    parser = Parser(domain_path, problem_path)
-    output_file = "../output.txt"
-    parser.print_bdds(output_file)
-
-    actions = parser.get_actions()
-    for _, action in actions.items():
-        print("\n=======================================")
-        print("Action:", action.get_name())
-        print("\n=> Preconditions")
-        for precondition in action.get_preconditions():
-            prop, bool_value = precondition
-            print(prop, bool_value)
-        print("\n=> Effects")
-        for i, possible_effect_scenario in enumerate(action.get_effects()):
-            print("\n==> Scenario", i)
-            for effect in possible_effect_scenario:
-                prop, bool_value = effect
-                print(prop, bool_value)
-
-if __name__ == "__main__":
-    main()
