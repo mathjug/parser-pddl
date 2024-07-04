@@ -9,7 +9,7 @@ test:
     - pip install pytest
     - pip install pddl
     - pip install pytest-cov 
-    - pytest --cov --cov-report=xml
+    - pytest --cov
   artifacts:
     reports:
       coverage_report:
