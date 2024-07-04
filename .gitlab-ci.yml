@@ -7,5 +7,5 @@ test:
   stage: test
   script:
     - pip install pytest pytest-cov pddl
-    - pytest --cov
+    - pytest --cov --cov-report
   coverage: /TOTAL\s+\d+\.\d+%/
