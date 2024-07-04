@@ -7,5 +7,6 @@ test:
   stage: test
   script:
     - pip install pytest
+    - pip install pddl
     - pytest  # Execute os testes no diretório "tests"
 
