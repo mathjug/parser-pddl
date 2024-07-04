@@ -8,5 +8,10 @@ test:
   script:
     - pip install pytest
     - pip install pddl
-    - pytest  # Execute os testes no diretório "tests"
+    - pytest --cov=my_project --cov-report=xml
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml # Execute os testes no diretório "tests"
 
