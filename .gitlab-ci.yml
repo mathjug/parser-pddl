@@ -7,9 +7,5 @@ test:
   stage: test
   script:
     - pip install pytest pytest-cov pddl
-    - pytest --cov --cov-report=xml
-  artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage.xml
+    - pytest --cov
+  coverage: /TOTAL.*? (100(?:\.0+)?\%\|[1-9]?\d(?:\.\d+)?\%)$/
