@@ -7,5 +7,5 @@ test:
   stage: test
   script:
     - pip install pytest
-    - pytest tests/  # Execute os testes no diretório "tests"
+    - pytest  # Execute os testes no diretório "tests"
 
