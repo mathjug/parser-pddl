@@ -8,11 +8,11 @@ test:
   script:
     - pip install pytest
     - pip install pddl
-    - pip install pytest-cov
+    - pip install pytest-cov --cov-report=txt
     - pytest --cov
   artifacts:
     reports:
       coverage_report:
         coverage_format: cobertura
-        path: coverage.xml # Execute os testes no diretório "tests"
+        path: coverage.txt # Execute os testes no diretório "tests"
 
