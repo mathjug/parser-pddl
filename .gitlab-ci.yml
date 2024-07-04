@@ -8,6 +8,7 @@ test:
   script:
     - pip install pytest
     - pip install pddl
+    - pip install pytest-cov
     - pytest --cov=my_project --cov-report=xml
   artifacts:
     reports:
