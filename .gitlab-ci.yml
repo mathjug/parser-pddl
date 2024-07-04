@@ -8,7 +8,7 @@ test:
   script:
     - pip install pytest pytest-cov pddl
     - pytest --cov=src --cov-report=xml
-  coverage: /TOTAL\s+(\d+\.\d+)%/
+  coverage: /TOTAL.*\s+(\d+%)$/
   artifacts:
     reports:
       coverage_report:
