@@ -1,0 +1,11 @@
+image: python:latest  # Imagem Docker com Python
+
+stages:
+  - test
+
+test:
+  stage: test
+  script:
+    - pip install pytest
+    - pytest tests/  # Execute os testes no diretório "tests"
+
