@@ -80,6 +80,9 @@ class Proposition:
     
     def get_index(self):
         return self.index
+    
+    def __lt__(self, other):
+        return self.name < other.name
 
 class Action:
     def __init__(self, name: str,
@@ -91,6 +94,9 @@ class Action:
         self.preconditions = preconditions[:]
         self.effects = effects[:]
 
+    def __str__(self):
+        return self.name
+    
     def get_name(self) -> str:
         return self.name
     

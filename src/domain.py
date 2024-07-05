@@ -91,7 +91,7 @@ class Domain:
             else:
                 deterministic_effects.append(effect)
         if(len(non_deterministic_effects) == 0):
-            return deterministic_effects
+            return [deterministic_effects]
         effects = []
         for effect in non_deterministic_effects:
             effects.append(effect + deterministic_effects)
