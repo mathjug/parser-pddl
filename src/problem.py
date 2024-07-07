@@ -50,11 +50,9 @@ class Problem:
         return dict_obj
 
     def get_name(self):
-        """Gets the AI problem name.
-        """
+        """Gets problem's name."""
         return self.name
 
     def get_objects(self):
-        """Gets the object dictionary, whose keys are the object types (strings) and the values are instances of the 'Object' class.
-        """
+        """Gets the problem's object dictionary."""
         return self.objects
