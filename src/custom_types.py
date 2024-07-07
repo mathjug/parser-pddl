@@ -11,7 +11,7 @@ class Object:
         rooma
     """
 
-    def __init__(self, name: str, type: str):
+    def __init__(self, name: str, type: str) -> None:
         """Initializes an 'Object' object.
 
         Args:
@@ -21,7 +21,7 @@ class Object:
         self.name = name
         self.type = type
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Provides a string representation for the object (its name).
 
         Returns:
@@ -29,7 +29,7 @@ class Object:
         """
         return self.name
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         """Compares this object to another lexicographically, based on name.
 
         Args:
@@ -40,11 +40,11 @@ class Object:
         """
         return self.name < other.name
 
-    def get_name(self):
+    def get_name(self) -> str:
         """Gets object's name."""
         return self.name
 
-    def get_type(self):
+    def get_type(self) -> str:
         """Gets object's type."""
         return self.type
 
@@ -61,7 +61,7 @@ class Predicate:
         at-ball [ 'ball', 'room' ]
     """
 
-    def __init__(self, name: str, variable_types: list[str] = []):
+    def __init__(self, name: str, variable_types: list[str] = []) -> None:
         """Initiliazes a 'Predicate' object.
 
         Args:
@@ -71,7 +71,7 @@ class Predicate:
         self.name = name
         self.variable_types = variable_types[:]
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Provides a string representation for the predicates.
 
         Returns:
@@ -80,7 +80,7 @@ class Predicate:
         output = self.name + " " + str(self.variable_types)
         return output
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         """Compares this predicate to another lexicographically, based on name.
 
         Args:
@@ -93,7 +93,7 @@ class Predicate:
             return self.name == other.name
         return False
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         """Calculates the hash value of this predicate, based on name.
 
         Returns:
@@ -101,11 +101,11 @@ class Predicate:
         """
         return hash(self.name)
 
-    def get_name(self):
+    def get_name(self) -> str:
         """Gets the predicate's name."""
         return self.name
 
-    def get_variable_types(self):
+    def get_variable_types(self) -> list[str]:
         """Gets the variable types"""
         return self.variable_types
 
@@ -115,7 +115,7 @@ class Proposition:
     Attributes:
         name (str): A descriptive name for the proposition.
         predicate (Predicate): The predicate corresponding to the proposition.
-        objects (list[Objects]): The list of (instantiated) objects corresponding to the proposition.
+        objects (list[Object]): The list of (instantiated) objects corresponding to the proposition.
         index (int): An index associated with the proposition.
 
     Example:
@@ -125,7 +125,7 @@ class Proposition:
         >>> print(at_ball_ball1_rooma)
         at_ball_ball1_rooma
     """
-    def __init__(self, predicate: Predicate, objects: list[Object], index=-1):
+    def __init__(self, predicate: Predicate, objects: list[Object], index: int = -1) -> None:
         """Initializes a 'Proposition' object
 
         Args:
@@ -138,7 +138,7 @@ class Proposition:
         self.name = self.__build_proposition_name()
         self.index = index
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Provides a string representation for propositions.
 
         Returns:
@@ -154,7 +154,7 @@ class Proposition:
         """
         return self.name
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Proposition') -> bool:
         """Compares this proposition to another lexicographically, based on name.
 
         Args:
@@ -167,7 +167,7 @@ class Proposition:
             return self.name == other.name
         return False
 
-    def __build_proposition_name(self):
+    def __build_proposition_name(self) -> str:
         """Builds a proposition name by combining the predicate name and object names."""
         names = ""
         for object in self.objects:
@@ -175,7 +175,7 @@ class Proposition:
         names = self.predicate.get_name() + names
         return names
 
-    def compare_names(self, prop_name: str):
+    def compare_names(self, prop_name: str) -> bool:
         """Compare the name of the proposition with the strings 'prop_name'.
 
         Args:
@@ -188,15 +188,15 @@ class Proposition:
             return True
         return False
 
-    def get_predicate(self):
+    def get_predicate(self) -> Predicate:
         """Gets predicate."""
         return self.predicate
 
-    def get_objects(self):
+    def get_objects(self) -> list[Object]:
         """Gets objects."""
         return self.objects
 
-    def get_index(self):
+    def get_index(self) -> int:
         """Gets proposition index."""
         return self.index
 

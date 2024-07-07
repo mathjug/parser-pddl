@@ -16,7 +16,7 @@ class Problem:
             '''
     """
 
-    def __init__(self, parsed_problem):
+    def __init__(self, parsed_problem) -> None:
         """Initializes a Problem object.
 
         Args:
@@ -30,14 +30,14 @@ class Problem:
         self.name = parsed_problem.name
         self.objects = self.__store_objects(parsed_problem)
 
-    def __store_objects(self, parsed_problem):
+    def __store_objects(self, parsed_problem) -> dict[str, list[Object]]:
         """Stores objects corresponding to the instantiated problem.
 
         Args:
             parsed_problem (pddl.Problem): The parsed problem description, as returned by 'pddl.parse_problem'.
 
         Returns:
-            dict: A dictionary whose keys are object types (strings) and the values are instances of the 'Object' class.
+            dict: A dictionary whose keys are object types (strings) and the values are lists of instances of the 'Object' class.
         """
         dict_obj = {}
         for parsed_object in parsed_problem.objects:
@@ -49,10 +49,10 @@ class Problem:
             dict_obj[object_type].append(object)
         return dict_obj
 
-    def get_name(self):
+    def get_name(self) -> str:
         """Gets problem's name."""
         return self.name
 
-    def get_objects(self):
+    def get_objects(self) -> dict[str, list[Object]]:
         """Gets the problem's object dictionary."""
         return self.objects
