@@ -192,16 +192,13 @@ class Parser:
     def __get_object_combinations(self, predicate: Predicate):
         """Generates unique combinations of objects that satisfy a given predicate's variable types.
 
-        This method takes a predicate and identifies the types of variables it expects.
-        It then retrieves all objects of those types and creates unique combinations
-        where each object in a combination is of the required type.
+        This method takes a predicate and identifies the types of variables it expects. It then retrieves all objects of those types and creates unique combinations where each object in a combination is of the required type.
 
         Args:
             predicate (Predicate): The predicate for which object combinations are to be generated.
 
         Returns:
-            list[tuple[Object, ...]]: A list of tuples, where each tuple represents a unique combination of objects
-                that can satisfy the predicate's variable types.
+            list[tuple[Object, ...]]: A list of tuples, where each tuple represents a unique combination of objects that can satisfy the predicate's variable types.
         """
         variable_types = predicate.get_variable_types()
 
