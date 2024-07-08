@@ -5,10 +5,9 @@ class Object:
         name (str): A descriptive name for the object.
         type (str): The type of the object.
 
-    Example:
+    Examples:
         >>> rooma = Object("rooma", "room")
-        >>> print(rooma)
-        rooma
+        >>> ball1 = Object("ball1", "ball")
     """
 
     def __init__(self, name: str, type: str) -> None:
@@ -55,10 +54,9 @@ class Predicate:
         name (str): A descriptive name for the predicate.
         variable_types (list[str]): The list of variable types of the predicate.
 
-    Example:
+    Examples:
+        >>> at_robby = Predicate("at-robby", [ "room" ])
         >>> at_ball = Predicate("at-ball", [ "ball", "room" ])
-        >>> print(at_ball)
-        at-ball [ 'ball', 'room' ]
     """
 
     def __init__(self, name: str, variable_types: list[str] = []) -> None:
@@ -118,12 +116,10 @@ class Proposition:
         objects (list[Object]): The list of (instantiated) objects corresponding to the proposition.
         index (int): An index associated with the proposition.
 
-    Example:
+    Examples:
         >>> at_ball = Predicate("at-ball", [ "ball", "room" ])
         >>> objects = [ Object("ball1", "ball"), Object("rooma", "room") ]
         >>> at_ball_ball1_rooma = Proposition(at_ball, objects, 0)
-        >>> print(at_ball_ball1_rooma)
-        at_ball_ball1_rooma
     """
     def __init__(self, predicate: Predicate, objects: list[Object], index: int = -1) -> None:
         """Initializes a 'Proposition' object

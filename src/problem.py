@@ -7,13 +7,10 @@ class Problem:
     Attributes:
         name (str): A descriptive name for the planning problem.
         objects (dict): A dictionary whose keys are object types (strings) and the values are instances of the 'Object' class.
-            For example:
-            '''python
-            objects = {
-                "ball": [Object("ball1", "ball"), Object("ball2", "ball"), Object("ball3", "ball")],
-                "room": [Object("rooma", "room"), Object("roomb", "room")]
-            }
-            '''
+
+    Examples:
+        >>> parsed_problem = pddl.parse_problem("tests/examples/gripper3_3_balls.pddl")
+        >>> problem = Problem(parsed_problem)
     """
 
     def __init__(self, parsed_problem) -> None:
@@ -23,7 +20,7 @@ class Problem:
             parsed_problem (pddl.Problem): The parsed problem description, as returned by 'pddl.parse_problem'.
 
         Note:
-            This method assumes that the 'parsed_problem' object contains the following informations:
+            This method assumes that the 'parsed_problem' object contains the following information:
                 - 'name': The AI planning problem name.
                 - 'objects': a list of objects valid for the problem domain.
         """
