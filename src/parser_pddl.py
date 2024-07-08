@@ -6,22 +6,15 @@ import itertools
 class Parser:
     """Represents the Parser, the central unit for domain and problem analysis.
 
-    This class encapsulates the parsing and representation of PDDL (Planning Domain Definition Language)
-    files, enabling the extraction and manipulation of domain elements and problem specifics for planning.
-
     Attributes:
         domain (Domain): The parsed representation of the planning domain.
         problem (Problem): The parsed representation of the specific planning problem.
         actions (list[Action]): A list of actions defined in the domain.
-        objects (dict[str, list[Object]]): A dictionary mapping object types (str) to lists of
-            corresponding objects.
+        objects (dict[str, list[Object]]): A dictionary mapping object types (str) to lists of corresponding objects.
         propositions (list[Proposition]): A list of all possible propositions in the domain.
-        dict_propositions (dict[str, Proposition]): A dictionary mapping proposition names (str)
-            to Proposition objects.
-        initial_state (list[int]): A bitmask representing the initial truth values of propositions
-            (1 for true, 0 for false).
-        goal_state (list[int]): A bitmask representing the goal truth values of propositions
-            (1 for true, 0 for false, -1 for don't care).
+        dict_propositions (dict[str, Proposition]): A dictionary mapping proposition names (str) to Proposition objects.
+        initial_state (list[int]): A bitmask representing the initial truth values of propositions (1 for true, 0 for false).
+        goal_state (list[int]): A bitmask representing the goal truth values of propositions (1 for true, 0 for false, -1 for don't care).
 
     Examples:
         >>> parser1 = Parser("tests/examples/gripper3.pddl", "tests/examples/gripper3_3_balls.pddl")
@@ -178,13 +171,10 @@ class Parser:
 
         Args:
             parsed_state: The parsed state object from the PDDL problem.
-            default_value (int, optional): The default value to use for propositions not explicitly
-                mentioned in the state. Defaults to 'default_value'.
+            default_value (int, optional): The default value to use for propositions not explicitly mentioned in the state. Defaults to 'default_value'.
 
         Returns:
-            list[int]: A list of truth values (1 for true, 0 for false, 'default_value' for don't care)
-                corresponding to the propositions defined in the domain. The list's length matches the number
-                of propositions.
+            list[int]: A list of truth values (1 for true, 0 for false, 'default_value' for don't care) corresponding to the propositions defined in the domain. The list's length matches the number of propositions.
         """
         if (str(type(parsed_state)) == "<class 'pddl.logic.base.And'>" ):
             parsed_state = parsed_state.operands
