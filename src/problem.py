@@ -6,7 +6,7 @@ class Problem:
 
     Attributes:
         name (str): A descriptive name for the planning problem.
-        objects (dict): A dictionary whose keys are object types (strings) and the values are instances of the 'Object' class.
+        objects (dict[str, list[Object]]): A map from object types (strings) to lists of instances of the 'Object' class.
 
     Examples:
         >>> parsed_problem = pddl.parse_problem("tests/examples/gripper3_3_balls.pddl")
@@ -17,7 +17,7 @@ class Problem:
         """Initializes a Problem object.
 
         Args:
-            parsed_problem (pddl.Problem): The parsed problem description, as returned by 'pddl.parse_problem'.
+            parsed_problem: The parsed problem description, as returned by 'pddl.parse_problem'.
 
         Note:
             This method assumes that the 'parsed_problem' object contains the following information:
@@ -31,10 +31,10 @@ class Problem:
         """Stores objects corresponding to the instantiated problem.
 
         Args:
-            parsed_problem (pddl.Problem): The parsed problem description.
+            parsed_problem: The parsed problem description.
 
         Returns:
-            dict: A dictionary whose keys are object types (strings) and the values are lists of instances of the 'Object' class.
+            dict[str, list[Object]]: A map from object types (strings) to lists of instances of the 'Object' class.
         """
         dict_obj = {}
         for parsed_object in parsed_problem.objects:
@@ -47,9 +47,9 @@ class Problem:
         return dict_obj
 
     def get_name(self) -> str:
-        """Gets problem's name."""
+        """Gets problem name."""
         return self.name
 
     def get_objects(self) -> dict[str, list[Object]]:
-        """Gets the problem's object dictionary."""
+        """Gets type-to-Object mapping for problem objects."""
         return self.objects
