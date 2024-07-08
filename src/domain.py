@@ -98,13 +98,11 @@ class Domain:
 
     def __store_actions_by_preconditions(self, action: Action,
                                             pred_to_actions: dict[Predicate, list[Action]]) -> dict[Predicate, list[Action]]:
-        """Updates 'pred_to_actions', which is a map from predicates to the actions
-            containing them in their preconditions.
+        """Updates 'pred_to_actions', which is a map from predicates to the actions containing them in their preconditions.
 
         Args:
             action (Action): An instantiated action.
-            pred_to_actions (dict[Predicate, list[Action]]): A map from predicates to the actions
-                they are associated with.
+            pred_to_actions (dict[Predicate, list[Action]]): A map from predicates to the actions they are associated with.
 
         Returns:
             dict[str, Predicate]: The updated mapping.
@@ -123,8 +121,7 @@ class Domain:
 
         Args:
             action: The parsed action description.
-            stored_predicates (dict[str, Predicate]): a map from the name of the predicates to
-                the 'Predicate' objects.
+            stored_predicates (dict[str, Predicate]): a map from the name of the predicates to the 'Predicate' objects.
 
         Returns:
             list[(Proposition, bool)]: A list of propositions, and their respective truth values.
@@ -149,13 +146,12 @@ class Domain:
             all_possible_effects (list[list[(Proposition, bool)] or (Proposition, bool)]): The list to populate
                 with the possible effects.
 
-        Logic:
-            - Base Case: If 'action_effects' is a single effect, appends its tuple to 'all_possible_effects'.
-            - Recursive Cases:
-                * 'And' Effect: Recursively processes each sub-effect, appending their results to the SAME
-                    'all_possible_effects' list.
-                * 'OneOf' Effect: Recursively processes each sub-effect, appending their results to SEPARATE
-                    lists within 'all_possible_effects' (representing alternative outcomes).
+        Base Case:
+            If 'action_effects' is a single effect, appends its tuple to 'all_possible_effects'.
+
+        Recursive Case:
+            - 'And' Effect: Recursively processes each sub-effect, appending their results to the SAME 'all_possible_effects' list.
+            - 'OneOf' Effect: Recursively processes each sub-effect, appending their results to SEPARATE lists within 'all_possible_effects' (representing alternative outcomes).
         """
         effects_type = str(type(action_effects))
         if not hasattr(action_effects, "operands"):
@@ -178,17 +174,13 @@ class Domain:
         """Combines deterministic and non-deterministic effects to a list of possible outcome scenarios.
 
         Args:
-            all_possible_effects (list[list[(Proposition, bool)] or (Proposition, bool)]): A list containing both
-                deterministic effects (represented as tuples) and non-deterministic effects (represented as lists of tuples).
+            all_possible_effects (list[list[(Proposition, bool)] or (Proposition, bool)]): A list containing both deterministic effects (represented as tuples) and non-deterministic effects (represented as lists of tuples).
 
         Returns:
-            list[list[tuple[Proposition, bool]]]: A list of lists, where each inner list represents one possible
-                combination of effects after the action. Deterministic effects are included in every outcome scenario.
+            list[list[tuple[Proposition, bool]]]: A list of lists, where each inner list represents one possible combination of effects after the action. Deterministic effects are included in every outcome scenario.
 
         Note:
-            This function assumes that non-deterministic effects have at most one level of alternative outcomes
-                (i.e., no nested "OneOf" effects). This simplifies the merging process and limits the "depth" of
-                potential effect combinations.
+            This function assumes that non-deterministic effects have at most one level of alternative outcomes (i.e., no nested "OneOf" effects). This simplifies the merging process and limits the "depth" of potential effect combinations.
         """
         deterministic_effects = []
         non_deterministic_effects = []
