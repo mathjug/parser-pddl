@@ -1,11 +1,15 @@
 from pddl import parse_domain
 from src import Object, Predicate, Action, Proposition
-from typing import List, Tuple, Union
+from typing import Union
 
 class Domain:
     """Represents a PDDL domain.
 
     Attributes:
+        constants (dict[str, list[Object]]): A map from the names of the constants to the 'Object' objects.
+        predicates (dict[str, Predicate]): A map from the names of the predicates to the 'Predicate' objects.
+        actions (list[Action]): A list of actions.
+        pred_to_actions (dict[Predicate, Actions]): A map from the name of the predicates to the 'Predicate' objects.
 
     Examples:
         >>> parsed_domain = parse_domain("tests/examples/gripper3.pddl")
@@ -23,16 +27,16 @@ class Domain:
 
     def __store_actions(self, parsed_domain,
                             stored_predicates: dict[str, Predicate]) -> tuple[list[Action], dict[Predicate, list[Action]]]:
-        """Builds a list of actions, along with a mapping from the predicates into a list of actions
+        """Builds a list of actions, along with a map from the predicates to a list of actions
             they are associated with, i.e., each action in the list has a precondition containing the predicate.
 
         Args:
             parsed_domain: The parsed domain description.
-            stored_predicates: A mapping from the name of the predicates to the 'Predicate' objects.
+            stored_predicates (dict[str, Predicate]): A map from the name of the predicates to the 'Predicate' objects.
 
         Returns:
             list[Action]: The list of actions of the corresponding PDDL domain.
-            dict[Predicate, list[Action]]): A mapping from predicates into the actions they are associated with.
+            dict[Predicate, list[Action]]): A map from predicates to the actions they are associated with.
         """
         actions = []
         pred_to_actions = {}
@@ -47,7 +51,7 @@ class Domain:
 
         Args:
             parsed_action: The parsed action description.
-            stored_predicates: A mapping from the name of the predicates to the 'Predicate' objects.
+            stored_predicates (dict[str, Predicate]): A map from the name of the predicates to the 'Predicate' objects.
 
         Returns:
             Action: The instantiated action.
@@ -82,7 +86,7 @@ class Domain:
         """Sets attributes, and build an 'Object' instance.
 
         Args:
-            parsed_action: The parsed object description.
+            parsed_object: The parsed object description.
 
         Returns:
             Object: The instantiated object.
@@ -94,12 +98,13 @@ class Domain:
 
     def __store_actions_by_preconditions(self, action: Action,
                                             pred_to_actions: dict[Predicate, list[Action]]) -> dict[Predicate, list[Action]]:
-        """Updates 'pred_to_actions', which is a mapping from predicates to the actions
+        """Updates 'pred_to_actions', which is a map from predicates to the actions
             containing them in their preconditions.
 
         Args:
-            action: An 'Action' object.
-            pred_to_actions: A mapping from predicates into the actions they are associated with.
+            action (Action): An instantiated action.
+            pred_to_actions (dict[Predicate, list[Action]]): A map from predicates to the actions
+                they are associated with.
 
         Returns:
             dict[str, Predicate]: The updated mapping.
@@ -118,10 +123,11 @@ class Domain:
 
         Args:
             action: The parsed action description.
-            stored_predicates: A mapping from the name of the predicates to the 'Predicate' objects.
+            stored_predicates (dict[str, Predicate]): a map from the name of the predicates to
+                the 'Predicate' objects.
 
         Returns:
-            list[tuple[Proposition, bool]]: A list of propositions, and their respective values.
+            list[(Proposition, bool)]: A list of propositions, and their respective truth values.
         """
         if hasattr(action.precondition, "operands"): # multiple preconditions
             preconditions = action.precondition.operands
@@ -135,20 +141,21 @@ class Domain:
 
     def __store_effects_of_action(self, action_effects, stored_predicates: dict[str, Predicate],
                                     all_possible_effects: list[Union[list[tuple[Proposition, bool]], tuple[Proposition, bool]]] = []) -> None:
-        """Builds a list of all possible effects for an action, both determinitisc and non-deterministic ones.
+        """Recursively builds a list of all possible effects (deterministic and non-deterministic) of an action.
 
         Args:
-            action_effects: The parsed action effects description.
-            stored_predicates: A mapping from the name of the predicates to the 'Predicate' objects.
-            all_possible_effects: list of deterministic and non-deterministic effects.
+            action_effects: The parsed description of the action's effects.
+            stored_predicates (dict[str, Predicate]): A map from predicate names to 'Predicate' objects.
+            all_possible_effects (list[list[(Proposition, bool)] or (Proposition, bool)]): The list to populate
+                with the possible effects.
 
-        Base case:
-            If there is only one effect (an 'atomic' effect), stores the tuple correspoding to it in 'all_possible_effects'.
-
-        Recursive case:
-            Otherwise, the effect is either
-                - 'And' effect: for each possible effect, calls the function recursively, using the current 'all_possible_effects' list; or
-                - 'OneOf' effect: for each possible effect, calls the function recursively, using an empty list as 'all_possible_effects'.
+        Logic:
+            - Base Case: If 'action_effects' is a single effect, appends its tuple to 'all_possible_effects'.
+            - Recursive Cases:
+                * 'And' Effect: Recursively processes each sub-effect, appending their results to the SAME
+                    'all_possible_effects' list.
+                * 'OneOf' Effect: Recursively processes each sub-effect, appending their results to SEPARATE
+                    lists within 'all_possible_effects' (representing alternative outcomes).
         """
         effects_type = str(type(action_effects))
         if not hasattr(action_effects, "operands"):
@@ -168,17 +175,20 @@ class Domain:
 
     def __merge_effects(self,
                         all_possible_effects: list[Union[list[tuple[Proposition, bool]], tuple[Proposition, bool]]]) -> list[list[tuple[Proposition, bool]]]:
-        """Builds a list with all possible effects, i.e., combines the deterministic
-            effects with the non-deterministic ones.
+        """Combines deterministic and non-deterministic effects to a list of possible outcome scenarios.
 
         Args:
-            all_possible_effects: A list with deterministic effects and the non-deterministic ones.
+            all_possible_effects (list[list[(Proposition, bool)] or (Proposition, bool)]): A list containing both
+                deterministic effects (represented as tuples) and non-deterministic effects (represented as lists of tuples).
 
         Returns:
-            list[list[tuple[Proposition, bool]]]: A list with the merged effects, i.e., the deterministic effects plus the non-deterministic ones
+            list[list[tuple[Proposition, bool]]]: A list of lists, where each inner list represents one possible
+                combination of effects after the action. Deterministic effects are included in every outcome scenario.
 
         Note:
-            This method assumes that there is no 'OneOf' chain, so the 'depth' of the possibility tree is at most 2.
+            This function assumes that non-deterministic effects have at most one level of alternative outcomes
+                (i.e., no nested "OneOf" effects). This simplifies the merging process and limits the "depth" of
+                potential effect combinations.
         """
         deterministic_effects = []
         non_deterministic_effects = []
@@ -196,6 +206,16 @@ class Domain:
         return effects
 
     def __store_one_effect_or_precondition_predicate(self, pred, stored_predicates: dict[str, Predicate]) -> tuple[Proposition, bool]:
+        """Builds a tuple (Proposition, bool) representing a single effect or precondition.
+
+        Args:
+            pred: The parsed description of the effect or precondition.
+            stored_predicates (dict[str, Predicate]): A map from predicate names to 'Predicate' objects.
+
+        Returns:
+            Proposition: The proposition corresponding to the effect.
+            bool: The truth value assgined to the Proposition.
+        """
         pred, bool_value = self.__get_predicate_and_boolean_value(pred)
         predicate = stored_predicates[pred.name]
         objects = []
@@ -207,13 +227,29 @@ class Domain:
         return proposition_with_bool
 
     def __get_predicate_and_boolean_value(self, proposition):
+        """Extracts the predicate and truth value from a proposition.
+
+        Args:
+            pred: The parsed description of a proposition.
+
+        Returns:
+            (PDDL Predicate, bool): The parsed description of the predicate within 'proposition', and its value.
+        """
         bool_value = True
         if str(type(proposition)) == "<class 'pddl.logic.base.Not'>":
             bool_value = False
             proposition = proposition.argument
         return proposition, bool_value
 
-    def __store_constants(self, parsed_domain) -> dict[str, Object]:
+    def __store_constants(self, parsed_domain) -> dict[str, list[Object]]:
+        """Stores constants corresponding to the instantiated domain.
+
+        Args:
+            parsed_domain: The parsed domain description.
+
+        Returns:
+            dict[str, list[Object]]: A map from the names of the constants to the 'Object' objects.
+        """
         dict_const = {}
         for parsed_constant in parsed_domain.constants:
             constant_type = str(next(iter(parsed_constant.type_tags)))
@@ -225,6 +261,14 @@ class Domain:
         return dict_const
 
     def __store_predicates(self, parsed_domain) -> dict[str, Predicate]:
+        """Builds a map from the predicates in the domain description to 'Predicate' objects.
+
+        Args:
+            parsed_domain: The parsed domain description.
+
+        Returns:
+            dict[str, Predicate]: A map from the names of the predicates to the 'Predicate' objects.
+        """
         predicates = {}
         for predicate in parsed_domain.predicates:
             variable_types = []
@@ -234,14 +278,18 @@ class Domain:
             predicates[predicate.name] = predicate_object
         return predicates
 
-    def get_constants(self) -> dict[str, Object]:
+    def get_constants(self) -> dict[str, list[Object]]:
+        """Gets name-to-Object mapping for domain constants."""
         return self.constants
 
     def get_predicates(self) -> dict[str, Predicate]:
+        """Gets name-to-Predicate mapping."""
         return self.predicates
 
     def get_actions(self) -> list[Action]:
+        """Gets list of domain actions."""
         return self.actions
 
     def get_pred_to_actions(self) -> dict[Predicate, list[Action]]:
+        """Gets Predicate-to-actions mapping."""
         return self.pred_to_actions
