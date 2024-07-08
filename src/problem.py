@@ -2,7 +2,7 @@ from pddl import parse_problem
 from src import Object
 
 class Problem:
-    """Represents an AI planning problem.
+    """Represents a PDDL problem.
 
     Attributes:
         name (str): A descriptive name for the planning problem.
@@ -31,7 +31,7 @@ class Problem:
         """Stores objects corresponding to the instantiated problem.
 
         Args:
-            parsed_problem (pddl.Problem): The parsed problem description, as returned by 'pddl.parse_problem'.
+            parsed_problem (pddl.Problem): The parsed problem description.
 
         Returns:
             dict: A dictionary whose keys are object types (strings) and the values are lists of instances of the 'Object' class.
