@@ -1,5 +1,5 @@
 class Object:
-    """Represents an AI planning object.
+    """Represents a PDDL object.
 
     Attributes:
         name (str): A descriptive name for the object.
@@ -48,7 +48,7 @@ class Object:
         return self.type
 
 class Predicate:
-    """Represents an AI planning Predicate.
+    """Represents a PDDL Predicate.
 
     Attributes:
         name (str): A descriptive name for the predicate.
@@ -108,7 +108,7 @@ class Predicate:
         return self.variable_types
 
 class Proposition:
-    """Represents an AI planning Proposition, which is an instantiated predicate.
+    """Represents a PDDL Proposition, which is an instantiated predicate.
 
     Attributes:
         name (str): A descriptive name for the proposition.
@@ -197,7 +197,7 @@ class Proposition:
         return self.index
 
 class Action:
-    """Represents an AI planning Action.
+    """Represents a PDDL Action.
 
     Attributes:
         name (str): A descriptive name for the action.
@@ -205,10 +205,8 @@ class Action:
         preconditions (list[(Proposition, bool)]): A list of tuples, with a proposition and its corresponding (boolean) value.
         effects (list[list[(Proposition, bool)]]): A list of effects; each effect is a list of propositions and their corresponding values.
     """
-    def __init__(self, name: str,
-                 arguments: list[Object],
-                 preconditions: list[(Proposition, bool)],
-                 effects: list[list[(Proposition, bool)]]) -> None:
+    def __init__(self, name: str, arguments: list[Object], preconditions: list[tuple[Proposition, bool]],
+                    effects: list[list[tuple[Proposition, bool]]]) -> None:
         """Initializes an 'Action' object.
 
         Attributes:
@@ -230,10 +228,10 @@ class Action:
         """Gets action's arguments list."""
         return self.arguments
 
-    def get_preconditions(self) -> list[(Proposition, bool)]:
+    def get_preconditions(self) -> list[tuple[Proposition, bool]]:
         """Gets action's preconditions' list."""
         return self.preconditions
 
-    def get_effects(self) -> list[list[(Proposition, bool)]]:
+    def get_effects(self) -> list[list[tuple[Proposition, bool]]]:
         """Gets action's effects' list."""
         return self.effects
