@@ -28,7 +28,7 @@ class Object:
         """
         return self.name
 
-    def __lt__(self, other) -> bool:
+    def __lt__(self, other: 'Object') -> bool:
         """Compares this object to another lexicographically, based on name.
 
         Args:
@@ -78,7 +78,7 @@ class Predicate:
         output = self.name + " " + str(self.variable_types)
         return output
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: 'Predicate') -> bool:
         """Compares this predicate to another lexicographically, based on name.
 
         Args:
@@ -221,17 +221,17 @@ class Action:
         self.effects = effects[:]
 
     def get_name(self) -> str:
-        """Gets action's name."""
+        """Gets action name."""
         return self.name
 
     def get_arguments(self) -> list[Object]:
-        """Gets action's arguments list."""
+        """Gets action arguments list."""
         return self.arguments
 
     def get_preconditions(self) -> list[tuple[Proposition, bool]]:
-        """Gets action's preconditions' list."""
+        """Gets action preconditions list."""
         return self.preconditions
 
     def get_effects(self) -> list[list[tuple[Proposition, bool]]]:
-        """Gets action's effects' list."""
+        """Gets action effects list."""
         return self.effects
