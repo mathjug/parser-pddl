@@ -40,8 +40,7 @@ class Parser:
         self.actions = self.domain.get_actions()
 
     def __print_problem_name(self, output_file: TextIO) -> None:
-        """Writes the problem name, enclosed in 'begin_problem_name' and 'end_problem_name' tags,
-            to the specified output stream.
+        """Writes the problem name, enclosed in 'begin_problem_name' and 'end_problem_name' tags, to the specified output stream.
 
         Args:
             output_file (TextIO): The text stream where the formatted problem name should be written.
@@ -51,8 +50,7 @@ class Parser:
         output_file.write("end_problem_name\n")
 
     def __print_propositions(self, output_file: TextIO) -> None:
-        """Writes propositions and their indices, enclosed in 'begin_propositions' and 'end_propositions' tags,
-            to the specified output stream.
+        """Writes propositions and their indices, enclosed in 'begin_propositions' and 'end_propositions' tags, to the specified output stream.
 
         Args:
             output_file (TextIO): The text stream where the formatted propositions should be written.
@@ -64,8 +62,7 @@ class Parser:
         output_file.write("end_propositions\n")
 
     def __print_initial_state(self, output_file: TextIO) -> None:
-        """Writes the initial state, enclosed in 'begin_initial_state' and 'end_initial_state' tags,
-            to the specified output stream.
+        """Writes the initial state, enclosed in 'begin_initial_state' and 'end_initial_state' tags, to the specified output stream.
 
         Args:
             output_file (TextIO): The text stream where the formatted initial state should be written.
@@ -77,8 +74,7 @@ class Parser:
         output_file.write("end_initial_state\n")
 
     def __print_goal_state(self, output_file: TextIO) -> None:
-        """Writes the goal state, enclosed in 'begin_goal_state' and 'end_goal_state' tags,
-            to the specified output stream.
+        """Writes the goal state, enclosed in 'begin_goal_state' and 'end_goal_state' tags, to the specified output stream.
 
         Args:
             output_file (TextIO): The text stream (file or similar) where the formatted goal state should be written.
