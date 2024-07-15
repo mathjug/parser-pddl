@@ -57,7 +57,7 @@ class Domain:
             Action: The instantiated action.
         """
         action_name = parsed_action.name
-        parameters = self.__process_action_arguments(parsed_action)
+        parameters = self.__process_action_parameters(parsed_action)
         preconditions = self.__store_preconditions_of_action(parsed_action, stored_predicates)
         all_possible_effects = []
         action_effect = parsed_action.effect
@@ -66,19 +66,19 @@ class Domain:
         action = Action(action_name, parameters, preconditions, effects)
         return action
 
-    def __process_action_arguments(self, parsed_action) -> list[Object]:
-        """Builds the list of arguemnts for the Action
+    def __process_action_parameters(self, parsed_action) -> list[Object]:
+        """Builds the list of parameters for the Action
 
         Args:
             parsed_action: The parsed action description.
 
         Returns:
-            list[Object]: The list of arguments for the action.
+            list[Object]: The list of parameters for the action.
         """
         parameters = []
-        action_arguments = parsed_action.parameters
-        for argument in action_arguments:
-            object = self.__build_object_instance(argument)
+        action_parameters = parsed_action.parameters
+        for parameter in action_parameters:
+            object = self.__build_object_instance(parameter)
             parameters.append(object)
         return parameters
 

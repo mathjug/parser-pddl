@@ -48,13 +48,13 @@ def test_actions_storage(domain_filename, expected):
     ("./tests/examples/gripper3.pddl", {"move" : ['from', 'to'],"pick" : ['gripper', 'obj', 'room'],"drop" : ['gripper', 'obj', 'room']}),
     ("./tests/examples/triangle-tire.pddl", {"move-car" : ['from', 'to'], "changetire" : ['loc'] }),
     ])
-def test_actions_arguments(domain_filename, expected):
+def test_actions_parameters(domain_filename, expected):
     domain = pddl.parse_domain(domain_filename)
     domain = Domain(domain)
     actions = domain.actions
     answer = {}
     for action in actions:
-        answer[action.name] = sorted([obj.name for obj in action.arguments])
+        answer[action.name] = sorted([obj.name for obj in action.parameters])
     assert answer == expected
 
 
