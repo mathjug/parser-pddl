@@ -1,4 +1,4 @@
-from src.parser_pddl import Parser
+from src import Parser
 
 def main():
     domain_path = "tests/examples/gripper3.pddl"
