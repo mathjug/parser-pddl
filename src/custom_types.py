@@ -51,6 +51,14 @@ class Object:
             bool: True if this object is lexicographically less than 'other'; False otherwise.
         """
         return self.name < other.name
+    
+    def __hash__(self) -> int:
+        """Calculates the hash value of this object, based on name.
+
+        Returns:
+            int: A hash value for this object.
+        """
+        return hash(self.name)
 
     def get_name(self) -> str:
         """Gets object's name."""
