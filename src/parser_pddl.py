@@ -1,5 +1,6 @@
 from pddl import parse_domain, parse_problem
 from src import Action, Domain, Object, Problem, Proposition, Predicate
+from src.ground import run_ground
 from typing import TextIO
 import itertools
 
@@ -38,6 +39,7 @@ class Parser:
         self.domain = Domain(parsed_domain)
         self.__store_basic_elements(parsed_problem)
         self.actions = self.domain.get_actions()
+        self.reachable_actions = self.__instantiate_reachable_actions()
 
     def __print_problem_name(self, output_file: TextIO) -> None:
         """Writes the problem name, enclosed in 'begin_problem_name' and 'end_problem_name' tags, to the specified output stream.
@@ -208,6 +210,16 @@ class Parser:
         unique_products = [tup for tup in all_products if len(tup) == len(set(tup))]
 
         return unique_products
+    
+    def __instantiate_reachable_actions(self):
+        reachable_actions = run_ground(self.initial_state, self.propositions,
+                                       self.dict_propositions,
+                                       self.domain.get_pred_to_actions(),
+                                       self.problem.get_objects())
+        return reachable_actions
+
+    def __print_reachable_actions(self):
+        return
 
     def get_propositions(self) -> list[Proposition]:
         """Gets domain propositions list."""
@@ -228,6 +240,9 @@ class Parser:
     def get_actions(self) -> list[Action]:
         """Gets domain action list."""
         return self.actions
+
+    def get_reachable_actions(self):
+        return self.reachable_actions
 
     def print_bdds(self, output_file: TextIO) -> None:
         """Writes the problem definition, propositions, initial state, and goal state in a structured format to a file.
