@@ -163,14 +163,6 @@ class Proposition:
         """
         return self.name
 
-    def __repr__(self) -> str:
-        """Provides a standard representation for propositions.
-
-        Returns:
-            str: The name of the proposition.
-        """
-        return self.name
-
     def __eq__(self, other: 'Proposition') -> bool:
         """Compares this proposition to another lexicographically, based on name.
 
