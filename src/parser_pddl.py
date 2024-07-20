@@ -1,5 +1,6 @@
 from pddl import parse_domain, parse_problem
 from src import Action, Domain, Object, Problem, Proposition, Predicate
+from src.ground import run_ground, find_proposition
 from typing import TextIO
 import itertools
 
@@ -38,6 +39,7 @@ class Parser:
         self.domain = Domain(parsed_domain)
         self.__store_basic_elements(parsed_problem)
         self.actions = self.domain.get_actions()
+        self.reachable_actions = self.__instantiate_reachable_actions()
 
     def __print_problem_name(self, output_file: TextIO) -> None:
         """Writes the problem name, enclosed in 'begin_problem_name' and 'end_problem_name' tags, to the specified output stream.
@@ -208,6 +210,59 @@ class Parser:
         unique_products = [tup for tup in all_products if len(tup) == len(set(tup))]
 
         return unique_products
+    
+    def __instantiate_reachable_actions(self):
+        reachable_actions = run_ground(self.initial_state, self.propositions,
+                                       self.dict_propositions,
+                                       self.domain.get_pred_to_actions(),
+                                       self.problem.get_objects())
+        return reachable_actions
+
+    def __build_instantiated_action_name(self, action, parameters):
+        name = str(action)
+        for parameter in parameters:
+            name += "_" + str(parameter)
+        return name
+
+    def __print_preconditions_reachable_action(self, action, parameters, output_file):
+        preconditions = action.get_preconditions()
+        
+        output_file.write("preconditions\n")
+        output_file.write(str(len(preconditions)) + "\n")
+        for precondition in preconditions:
+            generic_proposition, value = precondition
+            proposition = find_proposition(generic_proposition, parameters, 
+                                            self.dict_propositions, action.get_parameters())
+            proposition_index = proposition.get_index()
+            output_file.write(str(proposition_index) + " " + str(int(value))  + "\n")
+    
+    def __print_effects_reachable_action(self, action, parameters, output_file):
+        effects = action.get_effects()
+        output_file.write("begin_nd_effects\n")
+        output_file.write(str(len(effects)) + "\n")
+        for effect_scenario in effects:
+            output_file.write("effects\n")
+            output_file.write(str(len(effect_scenario)) + "\n")
+            for effect_tuple in effect_scenario:
+                generic_proposition, value = effect_tuple
+                proposition = find_proposition(generic_proposition, parameters,
+                                                self.dict_propositions, action.get_parameters())
+                output_file.write(str(proposition.get_index()) + " " + str(int(value)) + "\n")
+        output_file.write("end_nd_effects\n")
+    
+    def __print_reachable_actions(self, output_file: TextIO) -> None:
+        output_file.write("begin_actions\n")
+        output_file.write(str(len(self.reachable_actions)) + "\n")
+        for action_tup in self.reachable_actions:
+            action, parameters = action_tup
+            output_file.write("begin_action\n")
+            action_name = self.__build_instantiated_action_name(action, parameters)
+            output_file.write(action_name + "\n")
+            self.__print_preconditions_reachable_action(action, parameters, output_file)
+            self.__print_effects_reachable_action(action, parameters, output_file)
+            output_file.write("end_action\n")
+        output_file.write("end_actions")
+        return
 
     def get_propositions(self) -> list[Proposition]:
         """Gets domain propositions list."""
@@ -229,6 +284,9 @@ class Parser:
         """Gets domain action list."""
         return self.actions
 
+    def get_reachable_actions(self):
+        return self.reachable_actions
+
     def print_bdds(self, output_file: TextIO) -> None:
         """Writes the problem definition, propositions, initial state, and goal state in a structured format to a file.
 
@@ -247,3 +305,4 @@ class Parser:
             self.__print_propositions(output_file)
             self.__print_initial_state(output_file)
             self.__print_goal_state(output_file)
+            self.__print_reachable_actions(output_file)

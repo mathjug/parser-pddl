@@ -1,23 +1,19 @@
-from src.domain import Domain
-from src.problem import Problem
-from pddl import parse_domain, parse_problem
+from src import Parser
+import sys
 
 def main():
-    parsed_domain = parse_domain("tests/examples/gripper3.pddl")
-    parsed_problem = parse_problem("tests/examples/gripper3_3_balls.pddl")
-    print(type(parse_problem))
-    domain = Domain(parsed_domain)
-    problem = Problem(parsed_problem)
-    #actions = domain.get_actions()
-    #for i, action in enumerate(actions):
-    #    print(action.get_name())
-    objects = problem.get_objects()
-    for object in objects:
-        print(type(object))
-        print(object, end=': ')
-        for instance in objects[object]:
-            print(instance, end=' ')
-        print()
+    arguments = sys.argv[1:]
+    if len(arguments) != 2:
+        raise Exception("Wrong input format.\nUse: python3 main.py <domain_path> <problem_path>.")
+    
+    domain_path = arguments[0]
+    problem_path = arguments[1]
+    problem_name = problem_path.split(".")[0].split('/')[-1]
+    output_path = problem_name + '.out'
+    parser = Parser(domain_path, problem_path)
+    parser.print_bdds(output_path)
 
 if __name__ == "__main__":
     main()
+
+    # "tests/examples/gripper3.pddl" "tests/examples/gripper3_1_ball.pddl"
