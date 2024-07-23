@@ -239,7 +239,7 @@ class Parser:
         effects = action.get_effects()
         output_file.write("begin_nd_effects\n")
 
-        if (len(effects) == 1 and len(effects[0]) == 0):
+        if len(effects) == 0:
             output_file.write("1\n")
             output_file.write("effects\n")
             self.__print_preconditions_reachable_action(action, parameters, output_file)
@@ -247,12 +247,15 @@ class Parser:
             output_file.write(str(len(effects)) + "\n")
             for effect_scenario in effects:
                 output_file.write("effects\n")
-                output_file.write(str(len(effect_scenario)) + "\n")
-                for effect_tuple in effect_scenario:
-                    generic_proposition, value = effect_tuple
-                    proposition = find_proposition(generic_proposition, parameters,
-                                                    self.dict_propositions, action.get_parameters())
-                    output_file.write(str(proposition.get_index()) + " " + str(int(value)) + "\n")
+                if len(effect_scenario) == 0:
+                    self.__print_preconditions_reachable_action(action, parameters, output_file)
+                else:
+                    output_file.write(str(len(effect_scenario)) + "\n")
+                    for effect_tuple in effect_scenario:
+                        generic_proposition, value = effect_tuple
+                        proposition = find_proposition(generic_proposition, parameters,
+                                                        self.dict_propositions, action.get_parameters())
+                        output_file.write(str(proposition.get_index()) + " " + str(int(value)) + "\n")
         output_file.write("end_nd_effects\n")
     
     def __print_reachable_actions(self, output_file: TextIO) -> None:

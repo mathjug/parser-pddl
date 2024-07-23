@@ -4,7 +4,7 @@ import sys
 def main():
     arguments = sys.argv[1:]
     if len(arguments) != 2:
-        raise Exception("Wrong input format.\nUse: python3 main.py <domain_path> <problem_path>.")
+        raise Exception("Wrong input format.\nUse: python3 main.py <domain_path> <problem_path>")
     
     domain_path = arguments[0]
     problem_path = arguments[1]
@@ -15,5 +15,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    # "tests/examples/gripper3.pddl" "tests/examples/gripper3_1_ball.pddl"
