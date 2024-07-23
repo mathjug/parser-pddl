@@ -39,7 +39,7 @@ class Parser:
         self.domain = Domain(parsed_domain)
         self.__store_basic_elements(parsed_problem)
         self.actions = self.domain.get_actions()
-        self.reachable_actions = self.__instantiate_reachable_actions()
+        self.reachable_actions, self.reachable_propositions = self.__instantiate_reachable_actions()
 
     def __print_problem_name(self, output_file: TextIO) -> None:
         """Writes the problem name, enclosed in 'begin_problem_name' and 'end_problem_name' tags, to the specified output stream.
@@ -212,11 +212,11 @@ class Parser:
         return unique_products
     
     def __instantiate_reachable_actions(self):
-        reachable_actions = run_ground(self.initial_state, self.propositions,
+        reachable_actions,reachable_proposition = run_ground(self.initial_state, self.propositions,
                                        self.dict_propositions,
                                        self.domain.get_pred_to_actions(),
                                        self.problem.get_objects())
-        return reachable_actions
+        return (reachable_actions,reachable_proposition)
 
     def __build_instantiated_action_name(self, action, parameters):
         name = str(action)
@@ -227,7 +227,6 @@ class Parser:
     def __print_preconditions_reachable_action(self, action, parameters, output_file):
         preconditions = action.get_preconditions()
         
-        output_file.write("preconditions\n")
         output_file.write(str(len(preconditions)) + "\n")
         for precondition in preconditions:
             generic_proposition, value = precondition
@@ -239,15 +238,21 @@ class Parser:
     def __print_effects_reachable_action(self, action, parameters, output_file):
         effects = action.get_effects()
         output_file.write("begin_nd_effects\n")
-        output_file.write(str(len(effects)) + "\n")
-        for effect_scenario in effects:
+
+        if (len(effects) == 1 and len(effects[0]) == 0):
+            output_file.write("1\n")
             output_file.write("effects\n")
-            output_file.write(str(len(effect_scenario)) + "\n")
-            for effect_tuple in effect_scenario:
-                generic_proposition, value = effect_tuple
-                proposition = find_proposition(generic_proposition, parameters,
-                                                self.dict_propositions, action.get_parameters())
-                output_file.write(str(proposition.get_index()) + " " + str(int(value)) + "\n")
+            self.__print_preconditions_reachable_action(action, parameters, output_file)
+        else:
+            output_file.write(str(len(effects)) + "\n")
+            for effect_scenario in effects:
+                output_file.write("effects\n")
+                output_file.write(str(len(effect_scenario)) + "\n")
+                for effect_tuple in effect_scenario:
+                    generic_proposition, value = effect_tuple
+                    proposition = find_proposition(generic_proposition, parameters,
+                                                    self.dict_propositions, action.get_parameters())
+                    output_file.write(str(proposition.get_index()) + " " + str(int(value)) + "\n")
         output_file.write("end_nd_effects\n")
     
     def __print_reachable_actions(self, output_file: TextIO) -> None:
@@ -258,11 +263,23 @@ class Parser:
             output_file.write("begin_action\n")
             action_name = self.__build_instantiated_action_name(action, parameters)
             output_file.write(action_name + "\n")
+            output_file.write("preconditions\n")
             self.__print_preconditions_reachable_action(action, parameters, output_file)
             self.__print_effects_reachable_action(action, parameters, output_file)
             output_file.write("end_action\n")
-        output_file.write("end_actions")
+        output_file.write("end_actions\n")
         return
+    
+    def __print_reachable_propositions(self, output_file: TextIO):
+        output_file.write("begin_reachable_propositions\n")
+        reachable_propositions = []
+        for i in range(len(self.reachable_propositions)//2):
+            if self.reachable_propositions[i] == 1:
+                reachable_propositions.append(i)
+        output_file.write(str(len(reachable_propositions)) + "\n")
+        for i in reachable_propositions:
+            output_file.write(str(i) + "\n")
+        output_file.write("end_reachable_propositions")
 
     def get_propositions(self) -> list[Proposition]:
         """Gets domain propositions list."""
@@ -306,3 +323,4 @@ class Parser:
             self.__print_initial_state(output_file)
             self.__print_goal_state(output_file)
             self.__print_reachable_actions(output_file)
+            self.__print_reachable_propositions(output_file)
