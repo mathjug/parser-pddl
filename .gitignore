@@ -5,3 +5,4 @@ output.txt
 tests/examples/ex
 create_test.py
 output.txt
+*.out
