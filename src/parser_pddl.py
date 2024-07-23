@@ -1,6 +1,8 @@
 from pddl import parse_domain, parse_problem
-from src import Action, Domain, Object, Problem, Proposition, Predicate
-from src.ground import run_ground, find_proposition
+from .custom_types import Action, Object, Proposition, Predicate
+from .domain import Domain
+from .problem import Problem
+from .ground import run_ground, find_proposition
 from typing import TextIO
 import itertools
 

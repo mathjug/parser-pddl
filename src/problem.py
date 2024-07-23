@@ -1,5 +1,4 @@
-from pddl import parse_problem
-from src import Object
+from .custom_types import Object
 
 class Problem:
     """Represents a PDDL problem.

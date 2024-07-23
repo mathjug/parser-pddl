@@ -1,4 +1,4 @@
-from src import Proposition, Action, Predicate, Object
+from .custom_types import Proposition, Action, Predicate, Object
 from collections import deque
 from typing import Union
 import itertools

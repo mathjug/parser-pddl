@@ -1,5 +1,4 @@
-from pddl import parse_domain
-from src import Object, Predicate, Action, Proposition
+from .custom_types import Object, Predicate, Action, Proposition
 from typing import Union
 
 class Domain:

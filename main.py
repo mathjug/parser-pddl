@@ -1,4 +1,4 @@
-from src import Parser
+from src.parser_pddl import Parser
 import sys
 
 def main():
