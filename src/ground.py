@@ -1,8 +1,20 @@
 from src import Proposition, Action, Predicate, Object
 from collections import deque
+from typing import Union
 import itertools
 
-def create_reached_list(initial_state):
+def create_reached_list(initial_state: list[int]) -> list[int]:
+    """ Creates the list of reached propositions at the initial state.
+    
+    Args:
+        initial_state (list[int]): A bitmask representing the initial truth values of propositions (1 for true, 0 for false).
+
+    Returns:
+        list[int]: A list indicating whether a proposition is reached or not; for those reached, the value is 0; otherwise, value is -1.
+
+    Note:
+        Each proposition P has an index i; the i-th entry of the returned list correspond to the tuple (P, True), and the (n + i)-th entry to the tuple (P, False).
+    """
     n = len(initial_state)
     reached = [-1 for _ in range(2 * n)]
     for i in range(n):
@@ -12,38 +24,88 @@ def create_reached_list(initial_state):
             reached[i] = 0
     return reached
 
-def store_initial_queue(initial_state: list[int], propositions: list[Proposition]):
+def store_initial_queue(initial_state: list[int], propositions: list[Proposition]) -> deque[tuple[Proposition, int]]:
+    """
+    
+    Args:
+
+    Returns:
+
+    Note:
+    """
     frontier_queue = deque([])
     for i in range(len(initial_state)):
         frontier_queue.appendleft((propositions[i], initial_state[i]))
     return frontier_queue
 
-def get_element_from_frontier(frontier_queue):
+def get_element_from_frontier(frontier_queue: deque[tuple[Proposition, int]]) -> tuple[Proposition, int, int]:
+    """
+    
+    Args:
+
+    Returns:
+
+    Note:
+    """
     reached_tuple = frontier_queue.pop()
     proposition = reached_tuple[0]
     value = reached_tuple[1]
     index = proposition.get_index()
     return (proposition, value, index)
 
-def add_proposition_to_reached(reached_list, proposition_value, proposition_index,
-                               num_propositions):
+def add_proposition_to_reached(reached_list: list[int], proposition_value: int, 
+                                proposition_index: int, num_propositions: int) -> None:
+    """
+    
+    Args:
+
+    Returns:
+
+    Note:
+    """
     if proposition_value == 0:
         reached_list[num_propositions + proposition_index] = 1
     else:
         reached_list[proposition_index] = 1
 
-def find_reached_predicate_in_preconditions(preconditions, predicate, value):
+def find_reached_predicate_in_preconditions(preconditions: list[tuple[Proposition, int]], 
+                                            predicate: Predicate, value: int) -> Union[tuple[Proposition, int], None]:
+    """
+    
+    Args:
+
+    Returns:
+
+    Note:
+    """
     for precondition in preconditions:
         if predicate == precondition[0].get_predicate() and value == precondition[1]:
             return precondition
     return None
 
-def get_action_parameters_and_preconditions(action):
+def get_action_parameters_and_preconditions(action: Action) -> tuple[list[tuple[Proposition, bool]], list[Object]]:
+    """
+    
+    Args:
+
+    Returns:
+
+    Note:
+    """
     preconditions = action.get_preconditions()
     parameters = action.get_parameters()
     return (preconditions, parameters)
 
-def get_parameters_combinations(parameters, fixed_object, dict_objects) -> list[tuple[Object]]:
+def get_parameters_combinations(parameters: list[Object], fixed_object: dict[Object, list[Object]], 
+                                dict_objects: dict[str, list[Object]]) -> list[tuple[Object]]:
+    """
+    
+    Args:
+
+    Returns:
+
+    Note:
+    """
     parameters_list = []
     for object in parameters:
         if object in fixed_object:
@@ -56,6 +118,14 @@ def get_parameters_combinations(parameters, fixed_object, dict_objects) -> list[
     return unique_combinations
 
 def find_proposition(generic_proposition, object_combination, propositions, parameters):
+    """
+    
+    Args:
+
+    Returns:
+
+    Note:
+    """
     proposition_objects = []
     for object in generic_proposition.get_objects():
         for index, parameter in enumerate(parameters):
@@ -69,7 +139,17 @@ def find_proposition(generic_proposition, object_combination, propositions, para
     proposition = propositions[name]
     return proposition
 
-def enqueue_effects(frontier_queue, action, object_combination, propositions, parameters, reached):
+def enqueue_effects(frontier_queue: deque[tuple[Proposition, int]], action: Action, 
+                    object_combination: tuple[Object], propositions: dict[str, Proposition], 
+                    parameters: list[Object], reached: list[int]) -> None:
+    """
+    
+    Args:
+
+    Returns:
+
+    Note:
+    """
     for effect_scenario in action.get_effects():
         for effect_generic_proposition, effect_value in effect_scenario:
             proposition = find_proposition(effect_generic_proposition, object_combination, propositions, parameters)
@@ -86,7 +166,15 @@ def enqueue_effects(frontier_queue, action, object_combination, propositions, pa
 def run_ground(initial_state: list[int], list_propositions: list[Proposition], 
                 dict_propositions: dict[str, Proposition],
                 pred_to_actions: dict[Predicate, list[Action]],
-                dict_objects: dict[str, list[Object]]):
+                dict_objects: dict[str, list[Object]]) -> list[tuple[Action, tuple[Object]]]:
+    """
+    
+    Args:
+
+    Returns:
+
+    Note:
+    """
     frontier_queue = store_initial_queue(initial_state, list_propositions)
     reached = create_reached_list(initial_state)
     actions = []
@@ -131,4 +219,4 @@ def run_ground(initial_state: list[int], list_propositions: list[Proposition],
                     enqueue_effects(frontier_queue, action, object_combination, dict_propositions, parameters, reached)
                     actions.append((action, object_combination))
 
-    return actions
+    return (actions, reached)
