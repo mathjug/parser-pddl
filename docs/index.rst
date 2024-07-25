@@ -1,5 +1,5 @@
-Welcome to pactl_sym's documentation!
-=====================================
+Welcome to My Project's Documentation!
+======================================
 
 .. toctree::
    :maxdepth: 2

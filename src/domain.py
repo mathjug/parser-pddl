@@ -8,7 +8,7 @@ class Domain:
         constants (dict[str, list[Object]]): A map from the names of the constants to the 'Object' objects.
         predicates (dict[str, Predicate]): A map from the names of the predicates to the 'Predicate' objects.
         actions (list[Action]): A list of actions.
-        pred_to_actions (dict[Predicate, Actions]): A map from the name of the predicates to the 'Predicate' objects.
+        pred_to_actions (dict[Predicate, list[Action]]): A dictionary mapping predicates to lists of actions that have those predicates in their preconditions.
 
     Examples:
         >>> parsed_domain = parse_domain("tests/examples/gripper3.pddl")
@@ -101,7 +101,7 @@ class Domain:
 
         Args:
             action (Action): An instantiated action.
-            pred_to_actions (dict[Predicate, list[Action]]): A map from predicates to the actions they are associated with.
+        pred_to_actions (dict[Predicate, list[Action]]): A dictionary mapping predicates to lists of actions that have those predicates in their preconditions.
 
         Returns:
             dict[str, Predicate]: The updated mapping.
