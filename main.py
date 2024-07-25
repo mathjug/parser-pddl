@@ -8,7 +8,7 @@ def main():
     
     domain_path = arguments[0]
     problem_path = arguments[1]
-    problem_name = problem_path.split(".")[0].split('/')[-1]
+    problem_name = problem_path.split('/')[-1].split(".")[0]
     output_dir = "output"
     output_path = output_dir + "/" + problem_name + '.out'
     os.makedirs(output_dir, exist_ok=True)
