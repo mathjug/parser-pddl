@@ -64,4 +64,4 @@ parser = Parser(domain_path, problem_path)
 parser.print_bdds(output_file)
 ```
 
-For both procedures above, the output file will be created in the directory from which the script is executed.
+When running the `main.py` file, an `output` folder will be created (if it does not already exist) to store the output file. If you run the script using the code example provided above, the output file will be created in the directory from which the script is executed.
