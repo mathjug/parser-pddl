@@ -6,3 +6,4 @@ tests/examples/ex
 create_test.py
 output.txt
 *.out
+output/

@@ -1,5 +1,5 @@
 from src.parser_pddl import Parser
-import sys
+import sys,os
 
 def main():
     arguments = sys.argv[1:]
@@ -9,7 +9,9 @@ def main():
     domain_path = arguments[0]
     problem_path = arguments[1]
     problem_name = problem_path.split(".")[0].split('/')[-1]
-    output_path = problem_name + '.out'
+    output_dir = "output"
+    output_path = output_dir + "/" + problem_name + '.out'
+    os.makedirs(output_dir, exist_ok=True)
     parser = Parser(domain_path, problem_path)
     parser.print_bdds(output_path)
 
