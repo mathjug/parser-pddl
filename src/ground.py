@@ -218,6 +218,9 @@ def run_ground(initial_state: list[int], list_propositions: list[Proposition],
         reached_proposition, value, index = get_element_from_frontier(frontier_queue)
         add_proposition_to_reached(reached, value, index, num_propositions)
         reached_predicate = reached_proposition.get_predicate()
+        
+        if reached_predicate not in pred_to_actions:
+            continue
 
         for action in pred_to_actions[reached_predicate]:
             preconditions, parameters = get_action_parameters_and_preconditions(action)
