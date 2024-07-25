@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>ground Module &#8212; Parser PDDL to BDDs 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="parser_pddl Module" href="parser_pddl.html" />
+    <link rel="prev" title="domain Module" href="domain.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-src.ground">
+<span id="ground-module"></span><h1>ground Module<a class="headerlink" href="#module-src.ground" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.ground.add_proposition_to_reached">
+<span class="sig-prename descclassname"><span class="pre">src.ground.</span></span><span class="sig-name descname"><span class="pre">add_proposition_to_reached</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reached_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proposition_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proposition_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_propositions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.ground.add_proposition_to_reached" title="Link to this definition">¶</a></dt>
+<dd><p>Assigns value 1 to the entry of the list of reached (valued) propositions corresponding to the valued proposition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reached_list</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – The list reached propositions.</p></li>
+<li><p><strong>proposition_value</strong> (<em>int</em>) – The truth value of the proposition (1 for true, 0 for false).</p></li>
+<li><p><strong>proposition_index</strong> (<em>int</em>) – The index corresponding to the proposition.</p></li>
+<li><p><strong>num_propositions</strong> (<em>int</em>) – The total number of propositions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If a proposition P has an index i, the i-th entry of the returned list correspond to the tuple (P, True), and the (n + i)-th entry to the tuple (P, False).</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.ground.create_reached_list">
+<span class="sig-prename descclassname"><span class="pre">src.ground.</span></span><span class="sig-name descname"><span class="pre">create_reached_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.ground.create_reached_list" title="Link to this definition">¶</a></dt>
+<dd><p>Creates the list of reached propositions at the initial state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>initial_state</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – The bitmask representing the initial truth values of propositions (1 for true, 0 for false).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The list indicating whether a proposition is reached or not; for those reached, the value is 0; otherwise, value is -1.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Each proposition P has an index i; the i-th entry of the returned list correspond to the tuple (P, True), and the (n + i)-th entry to the tuple (P, False).</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.ground.enqueue_effects">
+<span class="sig-prename descclassname"><span class="pre">src.ground.</span></span><span class="sig-name descname"><span class="pre">enqueue_effects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frontier_queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_combination</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propositions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reached</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.ground.enqueue_effects" title="Link to this definition">¶</a></dt>
+<dd><p>Enqueues propositions and their respective truth values onto a frontier queue based on an action’s effects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frontier_queue</strong> (<em>deque</em><em>[</em><em>tuple</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition"><em>Proposition</em></a><em>, </em><em>int</em><em>]</em><em>]</em>) – A queue of (proposition, truth value) pairs representing propositions at the frontier.</p></li>
+<li><p><strong>action</strong> (<a class="reference internal" href="custom_types.html#src.custom_types.Action" title="src.custom_types.Action"><em>Action</em></a>) – The action whose effects are being processed.</p></li>
+<li><p><strong>object_combination</strong> (<em>tuple</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Object" title="src.custom_types.Object"><em>Object</em></a><em>]</em>) – The combination of objects for which the action’s effects are being evaluated.</p></li>
+<li><p><strong>propositions</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition"><em>Proposition</em></a><em>]</em>) – A dictionary mapping proposition names to Proposition objects.</p></li>
+<li><p><strong>parameters</strong> (<em>list</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Object" title="src.custom_types.Object"><em>Object</em></a><em>]</em>) – The list of parameters (objects) of the action.</p></li>
+<li><p><strong>reached</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – A list indicating which propositions have already been reached.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The function updates the ‘reached’ list to mark new propositions as reached, and appends the corresponding (proposition, truth value) pairs to the ‘frontier_queue’.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.ground.find_proposition">
+<span class="sig-prename descclassname"><span class="pre">src.ground.</span></span><span class="sig-name descname"><span class="pre">find_proposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generic_proposition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_combination</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propositions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.ground.find_proposition" title="Link to this definition">¶</a></dt>
+<dd><p>Finds a specific proposition within a dictionary given a generic proposition and an object combination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>generic_proposition</strong> (<a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition"><em>Proposition</em></a>) – The generic proposition (template) to match.</p></li>
+<li><p><strong>object_combination</strong> (<em>tuple</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Object" title="src.custom_types.Object"><em>Object</em></a><em>]</em>) – The objects to substitute into the generic proposition.</p></li>
+<li><p><strong>propositions</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition"><em>Proposition</em></a><em>]</em>) – A dictionary mapping proposition names to Proposition objects.</p></li>
+<li><p><strong>parameters</strong> (<em>list</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Object" title="src.custom_types.Object"><em>Object</em></a><em>]</em>) – The list of parameters (objects) used in the propositions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The matching proposition from the dictionary, or None if not found.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition">Proposition</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.ground.find_reached_predicate_in_preconditions">
+<span class="sig-prename descclassname"><span class="pre">src.ground.</span></span><span class="sig-name descname"><span class="pre">find_reached_predicate_in_preconditions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">preconditions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.ground.find_reached_predicate_in_preconditions" title="Link to this definition">¶</a></dt>
+<dd><p>Among all the preconditions of an action, finds the one (if one exists) that has a proposition whose predicate is the desired one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>preconditions</strong> (<em>list</em><em>[</em><em>tuple</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition"><em>Proposition</em></a><em>, </em><em>int</em><em>]</em><em>]</em>) – The list of preconditions of an action.</p></li>
+<li><p><strong>predicate</strong> (<a class="reference internal" href="custom_types.html#src.custom_types.Predicate" title="src.custom_types.Predicate"><em>Predicate</em></a>) – The predicate we’re looking for in the propositions of the preconditions.</p></li>
+<li><p><strong>value</strong> (<em>int</em>) – The truth value of the proposition (1 for true, 0 for false).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>returns the matching precondition, or None if not found.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[tuple[<a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition">Proposition</a>, int], None]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.ground.get_action_parameters_and_preconditions">
+<span class="sig-prename descclassname"><span class="pre">src.ground.</span></span><span class="sig-name descname"><span class="pre">get_action_parameters_and_preconditions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.ground.get_action_parameters_and_preconditions" title="Link to this definition">¶</a></dt>
+<dd><p>Retrieves the preconditions and parameters of an action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>action</strong> (<a class="reference internal" href="custom_types.html#src.custom_types.Action" title="src.custom_types.Action"><em>Action</em></a>) – The action object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>A list of preconditions, where each precondition is a tuple of a Proposition and its truth value (True or False).</p></li>
+<li><p>A list of objects representing the parameters required for the action.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[tuple[<a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition">Proposition</a>, bool]], list[<a class="reference internal" href="custom_types.html#src.custom_types.Object" title="src.custom_types.Object">Object</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.ground.get_element_from_frontier">
+<span class="sig-prename descclassname"><span class="pre">src.ground.</span></span><span class="sig-name descname"><span class="pre">get_element_from_frontier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frontier_queue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.ground.get_element_from_frontier" title="Link to this definition">¶</a></dt>
+<dd><p>Pops and returns the front element from the frontier queue along with its proposition’s index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frontier_queue</strong> (<em>deque</em><em>[</em><em>tuple</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition"><em>Proposition</em></a><em>, </em><em>int</em><em>]</em><em>]</em>) – A queue of (proposition, truth value) pairs representing propositions at the frontier. A proposition reaches the frontier if it lies in the effects list of a reachable action (see definition elsewhere).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>The popped proposition</p></li>
+<li><p>Its corresponding truth value (1 for true, 0 for false)</p></li>
+<li><p>The index associated with the proposition</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[<a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition">Proposition</a>, int, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.ground.get_parameters_combinations">
+<span class="sig-prename descclassname"><span class="pre">src.ground.</span></span><span class="sig-name descname"><span class="pre">get_parameters_combinations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict_objects</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.ground.get_parameters_combinations" title="Link to this definition">¶</a></dt>
+<dd><p>Generates all unique combinations of objects that can be assigned to a set of parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> (<em>list</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Object" title="src.custom_types.Object"><em>Object</em></a><em>]</em>) – A list of parameter objects for which combinations need to be generated.</p></li>
+<li><p><strong>fixed_object</strong> (<em>dict</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Object" title="src.custom_types.Object"><em>Object</em></a><em>, </em><em>list</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Object" title="src.custom_types.Object"><em>Object</em></a><em>]</em><em>]</em>) – A dictionary mapping parameter objects to their fixed values. If a parameter is not in this dictionary, it is considered variable.</p></li>
+<li><p><strong>dict_objects</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Object" title="src.custom_types.Object"><em>Object</em></a><em>]</em><em>]</em>) – A dictionary mapping object types (as strings) to lists of objects of that type.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tuples, where each tuple represents a unique combination of objects that can be assigned to the parameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[tuple[<a class="reference internal" href="custom_types.html#src.custom_types.Object" title="src.custom_types.Object">Object</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.ground.run_ground">
+<span class="sig-prename descclassname"><span class="pre">src.ground.</span></span><span class="sig-name descname"><span class="pre">run_ground</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_propositions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict_propositions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_to_actions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict_objects</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.ground.run_ground" title="Link to this definition">¶</a></dt>
+<dd><p>Given an initial state, computes the list of reachable actions, along with the list of reachable propositions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>initial_state</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – The initial state represented as a bitmask (1 for true, 0 for false) for each proposition.</p></li>
+<li><p><strong>list_propositions</strong> (<em>list</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition"><em>Proposition</em></a><em>]</em>) – The list of all propositions in the domain.</p></li>
+<li><p><strong>dict_propositions</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition"><em>Proposition</em></a><em>]</em>) – A dictionary mapping proposition names to Proposition objects.</p></li>
+<li><p><strong>pred_to_actions</strong> (<em>dict</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Predicate" title="src.custom_types.Predicate"><em>Predicate</em></a><em>, </em><em>list</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Action" title="src.custom_types.Action"><em>Action</em></a><em>]</em><em>]</em>) – A dictionary mapping predicates to lists of actions that have those predicates in their preconditions.</p></li>
+<li><p><strong>dict_objects</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Object" title="src.custom_types.Object"><em>Object</em></a><em>]</em><em>]</em>) – A dictionary mapping object types (as strings) to lists of objects of that type.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>A list of tuples where each tuple represents a reachable action and its corresponding object combination.</p></li>
+<li><p>A list indicating whether each proposition (and its negation) is reachable (1) or not (-1).</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[list[tuple[<a class="reference internal" href="custom_types.html#src.custom_types.Action" title="src.custom_types.Action">Action</a>, tuple[<a class="reference internal" href="custom_types.html#src.custom_types.Object" title="src.custom_types.Object">Object</a>]]], list[int]]</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The algorithm iteratively explores the state space by adding reached propositions to a frontier queue.
+It checks if actions’ preconditions are satisfied by the reached propositions and their combinations.
+If so, the action’s effects are enqueued, expanding the frontier.
+The process continues until all reachable propositions and actions are found.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.ground.store_initial_queue">
+<span class="sig-prename descclassname"><span class="pre">src.ground.</span></span><span class="sig-name descname"><span class="pre">store_initial_queue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">propositions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.ground.store_initial_queue" title="Link to this definition">¶</a></dt>
+<dd><p>Enqueue the pairs composed by the propositions and their respective truth values at the initial state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>initial_state</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – The bitmask representing the initial truth values of propositions (1 for true, 0 for false).</p></li>
+<li><p><strong>propositions</strong> (<em>list</em><em>[</em><a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition"><em>Proposition</em></a><em>]</em>) – The list of all possible propositions in the domain.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A queue with the tuples corresponding to the initial state.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>deque[tuple[<a class="reference internal" href="custom_types.html#src.custom_types.Proposition" title="src.custom_types.Proposition">Proposition</a>, int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Parser PDDL to BDDs</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="custom_types.html">custom_types Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="domain.html">domain Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ground Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#src.ground.add_proposition_to_reached"><code class="docutils literal notranslate"><span class="pre">add_proposition_to_reached()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.ground.create_reached_list"><code class="docutils literal notranslate"><span class="pre">create_reached_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.ground.enqueue_effects"><code class="docutils literal notranslate"><span class="pre">enqueue_effects()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.ground.find_proposition"><code class="docutils literal notranslate"><span class="pre">find_proposition()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.ground.find_reached_predicate_in_preconditions"><code class="docutils literal notranslate"><span class="pre">find_reached_predicate_in_preconditions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.ground.get_action_parameters_and_preconditions"><code class="docutils literal notranslate"><span class="pre">get_action_parameters_and_preconditions()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.ground.get_element_from_frontier"><code class="docutils literal notranslate"><span class="pre">get_element_from_frontier()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.ground.get_parameters_combinations"><code class="docutils literal notranslate"><span class="pre">get_parameters_combinations()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.ground.run_ground"><code class="docutils literal notranslate"><span class="pre">run_ground()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.ground.store_initial_queue"><code class="docutils literal notranslate"><span class="pre">store_initial_queue()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="parser_pddl.html">parser_pddl Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problem.html">problem Module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="domain.html" title="previous chapter">domain Module</a></li>
+      <li>Next: <a href="parser_pddl.html" title="next chapter">parser_pddl Module</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, André Nogueira, Henri Michel, João Guilherme, Matheus Sanches.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/ground.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

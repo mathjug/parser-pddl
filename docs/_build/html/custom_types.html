@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>custom_types Module &#8212; Parser PDDL to BDDs 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=2709fde1"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="domain Module" href="domain.html" />
+    <link rel="prev" title="Welcome to My Project’s Documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-src.custom_types">
+<span id="custom-types-module"></span><h1>custom_types Module<a class="headerlink" href="#module-src.custom_types" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.custom_types.Action">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.custom_types.</span></span><span class="sig-name descname"><span class="pre">Action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preconditions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effects</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Action" title="Link to this definition">¶</a></dt>
+<dd><p>Represents a PDDL Action.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.custom_types.Action.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#src.custom_types.Action.name" title="Link to this definition">¶</a></dt>
+<dd><p>A descriptive name for the action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.custom_types.Action.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#src.custom_types.Action.parameters" title="Link to this definition">¶</a></dt>
+<dd><p>The list of parameters of the action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Objects]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.custom_types.Action.preconditions">
+<span class="sig-name descname"><span class="pre">preconditions</span></span><a class="headerlink" href="#src.custom_types.Action.preconditions" title="Link to this definition">¶</a></dt>
+<dd><p>A list of tuples, with a proposition and its corresponding (boolean) value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[(<a class="reference internal" href="#src.custom_types.Proposition" title="src.custom_types.Proposition">Proposition</a>, bool)]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.custom_types.Action.effects">
+<span class="sig-name descname"><span class="pre">effects</span></span><a class="headerlink" href="#src.custom_types.Action.effects" title="Link to this definition">¶</a></dt>
+<dd><p>A list of effects; each effect is a list of propositions and their corresponding values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[(<a class="reference internal" href="#src.custom_types.Proposition" title="src.custom_types.Proposition">Proposition</a>, bool)]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.custom_types.Action.get_effects">
+<span class="sig-name descname"><span class="pre">get_effects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Action.get_effects" title="Link to this definition">¶</a></dt>
+<dd><p>Gets action effects list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<a class="reference internal" href="#src.custom_types.Proposition" title="src.custom_types.Proposition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Proposition</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]]]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.custom_types.Action.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Action.get_name" title="Link to this definition">¶</a></dt>
+<dd><p>Gets action name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.custom_types.Action.get_parameters">
+<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Action.get_parameters" title="Link to this definition">¶</a></dt>
+<dd><p>Gets action parameters list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<a class="reference internal" href="#src.custom_types.Object" title="src.custom_types.Object"><code class="xref py py-class docutils literal notranslate"><span class="pre">Object</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.custom_types.Action.get_preconditions">
+<span class="sig-name descname"><span class="pre">get_preconditions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Action.get_preconditions" title="Link to this definition">¶</a></dt>
+<dd><p>Gets action preconditions list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<a class="reference internal" href="#src.custom_types.Proposition" title="src.custom_types.Proposition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Proposition</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.custom_types.Object">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.custom_types.</span></span><span class="sig-name descname"><span class="pre">Object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Object" title="Link to this definition">¶</a></dt>
+<dd><p>Represents a PDDL object.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.custom_types.Object.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#src.custom_types.Object.name" title="Link to this definition">¶</a></dt>
+<dd><p>A descriptive name for the object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.custom_types.Object.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#src.custom_types.Object.type" title="Link to this definition">¶</a></dt>
+<dd><p>The type of the object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rooma</span> <span class="o">=</span> <span class="n">Object</span><span class="p">(</span><span class="s2">&quot;rooma&quot;</span><span class="p">,</span> <span class="s2">&quot;room&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ball1</span> <span class="o">=</span> <span class="n">Object</span><span class="p">(</span><span class="s2">&quot;ball1&quot;</span><span class="p">,</span> <span class="s2">&quot;ball&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.custom_types.Object.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Object.get_name" title="Link to this definition">¶</a></dt>
+<dd><p>Gets object’s name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.custom_types.Object.get_type">
+<span class="sig-name descname"><span class="pre">get_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Object.get_type" title="Link to this definition">¶</a></dt>
+<dd><p>Gets object’s type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.custom_types.Predicate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.custom_types.</span></span><span class="sig-name descname"><span class="pre">Predicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Predicate" title="Link to this definition">¶</a></dt>
+<dd><p>Represents a PDDL Predicate.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.custom_types.Predicate.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#src.custom_types.Predicate.name" title="Link to this definition">¶</a></dt>
+<dd><p>A descriptive name for the predicate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.custom_types.Predicate.variable_types">
+<span class="sig-name descname"><span class="pre">variable_types</span></span><a class="headerlink" href="#src.custom_types.Predicate.variable_types" title="Link to this definition">¶</a></dt>
+<dd><p>The list of variable types of the predicate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">at_robby</span> <span class="o">=</span> <span class="n">Predicate</span><span class="p">(</span><span class="s2">&quot;at-robby&quot;</span><span class="p">,</span> <span class="p">[</span> <span class="s2">&quot;room&quot;</span> <span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">at_ball</span> <span class="o">=</span> <span class="n">Predicate</span><span class="p">(</span><span class="s2">&quot;at-ball&quot;</span><span class="p">,</span> <span class="p">[</span> <span class="s2">&quot;ball&quot;</span><span class="p">,</span> <span class="s2">&quot;room&quot;</span> <span class="p">])</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.custom_types.Predicate.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Predicate.get_name" title="Link to this definition">¶</a></dt>
+<dd><p>Gets the predicate’s name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.custom_types.Predicate.get_variable_types">
+<span class="sig-name descname"><span class="pre">get_variable_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Predicate.get_variable_types" title="Link to this definition">¶</a></dt>
+<dd><p>Gets the variable types</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.custom_types.Proposition">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.custom_types.</span></span><span class="sig-name descname"><span class="pre">Proposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objects</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Proposition" title="Link to this definition">¶</a></dt>
+<dd><p>Represents a PDDL Proposition, which is an instantiated predicate.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.custom_types.Proposition.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#src.custom_types.Proposition.name" title="Link to this definition">¶</a></dt>
+<dd><p>A descriptive name for the proposition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.custom_types.Proposition.predicate">
+<span class="sig-name descname"><span class="pre">predicate</span></span><a class="headerlink" href="#src.custom_types.Proposition.predicate" title="Link to this definition">¶</a></dt>
+<dd><p>The predicate corresponding to the proposition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#src.custom_types.Predicate" title="src.custom_types.Predicate">Predicate</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.custom_types.Proposition.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><a class="headerlink" href="#src.custom_types.Proposition.objects" title="Link to this definition">¶</a></dt>
+<dd><p>The list of (instantiated) objects corresponding to the proposition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#src.custom_types.Object" title="src.custom_types.Object">Object</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.custom_types.Proposition.index">
+<span class="sig-name descname"><span class="pre">index</span></span><a class="headerlink" href="#src.custom_types.Proposition.index" title="Link to this definition">¶</a></dt>
+<dd><p>An index associated with the proposition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">at_ball</span> <span class="o">=</span> <span class="n">Predicate</span><span class="p">(</span><span class="s2">&quot;at-ball&quot;</span><span class="p">,</span> <span class="p">[</span> <span class="s2">&quot;ball&quot;</span><span class="p">,</span> <span class="s2">&quot;room&quot;</span> <span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">objects</span> <span class="o">=</span> <span class="p">[</span> <span class="n">Object</span><span class="p">(</span><span class="s2">&quot;ball1&quot;</span><span class="p">,</span> <span class="s2">&quot;ball&quot;</span><span class="p">),</span> <span class="n">Object</span><span class="p">(</span><span class="s2">&quot;rooma&quot;</span><span class="p">,</span> <span class="s2">&quot;room&quot;</span><span class="p">)</span> <span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">at_ball_ball1_rooma</span> <span class="o">=</span> <span class="n">Proposition</span><span class="p">(</span><span class="n">at_ball</span><span class="p">,</span> <span class="n">objects</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.custom_types.Proposition.compare_names">
+<span class="sig-name descname"><span class="pre">compare_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prop_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Proposition.compare_names" title="Link to this definition">¶</a></dt>
+<dd><p>Compare the name of the proposition with the strings ‘prop_name’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>prop_name</strong> (<em>str</em>) – The string to be compared to the proposition name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the name of the proposition is equal to ‘prop_name’; False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.custom_types.Proposition.get_index">
+<span class="sig-name descname"><span class="pre">get_index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Proposition.get_index" title="Link to this definition">¶</a></dt>
+<dd><p>Gets proposition index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.custom_types.Proposition.get_objects">
+<span class="sig-name descname"><span class="pre">get_objects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Proposition.get_objects" title="Link to this definition">¶</a></dt>
+<dd><p>Gets objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>[<a class="reference internal" href="#src.custom_types.Object" title="src.custom_types.Object"><code class="xref py py-class docutils literal notranslate"><span class="pre">Object</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.custom_types.Proposition.get_predicate">
+<span class="sig-name descname"><span class="pre">get_predicate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.custom_types.Proposition.get_predicate" title="Link to this definition">¶</a></dt>
+<dd><p>Gets predicate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#src.custom_types.Predicate" title="src.custom_types.Predicate"><code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Parser PDDL to BDDs</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">custom_types Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#src.custom_types.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.custom_types.Object"><code class="docutils literal notranslate"><span class="pre">Object</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.custom_types.Predicate"><code class="docutils literal notranslate"><span class="pre">Predicate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.custom_types.Proposition"><code class="docutils literal notranslate"><span class="pre">Proposition</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="domain.html">domain Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ground.html">ground Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parser_pddl.html">parser_pddl Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problem.html">problem Module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to My Project’s Documentation!</a></li>
+      <li>Next: <a href="domain.html" title="next chapter">domain Module</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, André Nogueira, Henri Michel, João Guilherme, Matheus Sanches.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/custom_types.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
