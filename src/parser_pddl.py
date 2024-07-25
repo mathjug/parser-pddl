@@ -12,12 +12,12 @@ class Parser:
     Attributes:
         domain (Domain): The parsed representation of the planning domain.
         problem (Problem): The parsed representation of the specific planning problem.
-        actions (list[Action]): A list of actions defined in the domain.
+        actions (list[Action]): The list of actions defined in the domain.
         objects (dict[str, list[Object]]): A dictionary mapping object types (str) to lists of corresponding objects.
-        propositions (list[Proposition]): A list of all possible propositions in the domain.
+        propositions (list[Proposition]): The list of all possible propositions in the domain.
         dict_propositions (dict[str, Proposition]): A dictionary mapping proposition names (str) to Proposition objects.
-        initial_state (list[int]): A bitmask representing the initial truth values of propositions (1 for true, 0 for false).
-        goal_state (list[int]): A bitmask representing the goal truth values of propositions (1 for true, 0 for false, -1 for don't care).
+        initial_state (list[int]): The bitmask representing the initial truth values of propositions (1 for true, 0 for false).
+        goal_state (list[int]): The bitmask representing the goal truth values of propositions (1 for true, 0 for false, -1 for don't care).
 
     Examples:
         >>> parser1 = Parser("tests/examples/gripper3.pddl", "tests/examples/gripper3_3_balls.pddl")
@@ -32,8 +32,7 @@ class Parser:
             problem_path (str): The file path to the PDDL problem definition.
 
         Note:
-            The initialization process assumes a valid and coherent relationship between the problem
-                and domain definitions.
+            The initialization process assumes a valid and coherent relationship between the problem and domain definitions.
         """
         parsed_problem = parse_problem(problem_path)
         parsed_domain = parse_domain(domain_path)
@@ -167,14 +166,14 @@ class Parser:
         return '_'.join(str(parsed_prop)[low:high].split())
 
     def __process_state(self, parsed_state, default_value: int) -> list[int]:
-        """Converts a parsed PDDL state into a list of truth values for propositions.
+        """Converts a parsed PDDL state into the list of truth values for propositions.
 
         Args:
             parsed_state: The parsed state object from the PDDL problem.
             default_value (int, optional): The default value to use for propositions not explicitly mentioned in the state. Defaults to 'default_value'.
 
         Returns:
-            list[int]: A list of truth values (1 for true, 0 for false, 'default_value' for don't care) corresponding to the propositions defined in the domain. The list's length matches the number of propositions.
+            list[int]: The list of truth values (1 for true, 0 for false, 'default_value' for don't care) corresponding to the propositions defined in the domain. The list's length matches the number of propositions.
         """
         if (str(type(parsed_state)) == "<class 'pddl.logic.base.And'>" ):
             parsed_state = parsed_state.operands
@@ -189,7 +188,7 @@ class Parser:
                     state[i] = 0 if prop_is_negated else 1
         return state
 
-    def __get_object_combinations(self, predicate: Predicate):
+    def __get_object_combinations(self, predicate: Predicate) -> tuple[Object]:
         """Generates unique combinations of objects that satisfy a given predicate's variable types.
 
         This method takes a predicate and identifies the types of variables it expects. It then retrieves all objects of those types and creates unique combinations where each object in a combination is of the required type.
@@ -198,7 +197,7 @@ class Parser:
             predicate (Predicate): The predicate for which object combinations are to be generated.
 
         Returns:
-            list[tuple[Object, ...]]: A list of tuples, where each tuple represents a unique combination of objects that can satisfy the predicate's variable types.
+            list[tuple[Object, ...]]: The list of tuples, where each tuple represents a unique combination of objects that can satisfy the predicate's variable types.
         """
         variable_types = predicate.get_variable_types()
 
@@ -212,32 +211,46 @@ class Parser:
         unique_products = [tup for tup in all_products if len(tup) == len(set(tup))]
 
         return unique_products
-    
-    def __instantiate_reachable_actions(self):
-        reachable_actions,reachable_proposition = run_ground(self.initial_state, self.propositions,
+
+    def __instantiate_reachable_actions(self) -> tuple[list[tuple[Action, tuple[Object]]], list[int]]:
+        """Calls the function run_ground and returns the tuple returned by the call."""
+        reachable_actions, reachable_propositions = run_ground(self.initial_state, self.propositions,
                                        self.dict_propositions,
                                        self.domain.get_pred_to_actions(),
                                        self.problem.get_objects())
-        return (reachable_actions,reachable_proposition)
+        return (reachable_actions, reachable_propositions)
 
-    def __build_instantiated_action_name(self, action, parameters):
+    def __build_instantiated_action_name(self, action: Action, parameters: tuple[Object]) -> str:
+        """Builds an instantiated action name by combining the action name and the parameters names."""
         name = str(action)
         for parameter in parameters:
             name += "_" + str(parameter)
         return name
 
-    def __print_preconditions_reachable_action(self, action, parameters, output_file):
+    def __print_preconditions_reachable_action(self, action: Action, parameters: tuple[Object], output_file: TextIO) -> None:
+        """Writes the preconditions of a reachable action to the specified output stream.
+
+        Args:
+            action (Action): The instantiated action.
+            parameters (tuple[Object]): The parameters of the instantiated action.
+            output_file (TextIO): The text stream where the formatted effects of the reachable action should be written.
+        """
         preconditions = action.get_preconditions()
-        
+
         output_file.write(str(len(preconditions)) + "\n")
         for precondition in preconditions:
             generic_proposition, value = precondition
-            proposition = find_proposition(generic_proposition, parameters, 
+            proposition = find_proposition(generic_proposition, parameters,
                                             self.dict_propositions, action.get_parameters())
             proposition_index = proposition.get_index()
             output_file.write(str(proposition_index) + " " + str(int(value))  + "\n")
-    
-    def __print_effects_reachable_action(self, action, parameters, output_file):
+
+    def __print_effects_reachable_action(self, action: Action, parameters: tuple[Object], output_file: TextIO) -> None:
+        """Writes the effects of a reachable action, enclosed in 'begin_nd_effects' and 'end_nd_effects' tags, to the specified output stream.
+
+        Args:
+            output_file (TextIO): The text stream where the formatted effects of the reachable action should be written.
+        """
         effects = action.get_effects()
         output_file.write("begin_nd_effects\n")
 
@@ -259,8 +272,13 @@ class Parser:
                                                         self.dict_propositions, action.get_parameters())
                         output_file.write(str(proposition.get_index()) + " " + str(int(value)) + "\n")
         output_file.write("end_nd_effects\n")
-    
+
     def __print_reachable_actions(self, output_file: TextIO) -> None:
+        """Writes the reachable actions, enclosed in 'begin_actions' and 'end_actions' tags, to the specified output stream.
+
+        Args:
+            output_file (TextIO): The text stream where the formatted reachable actions should be written.
+        """
         output_file.write("begin_actions\n")
         output_file.write(str(len(self.reachable_actions)) + "\n")
         for action_tup in self.reachable_actions:
@@ -274,11 +292,16 @@ class Parser:
             output_file.write("end_action\n")
         output_file.write("end_actions\n")
         return
-    
-    def __print_reachable_propositions(self, output_file: TextIO):
+
+    def __print_reachable_propositions(self, output_file: TextIO) -> None:
+        """Writes the reachable propositions, enclosed in 'begin_reachable_propositions' and 'end_reachable_propositions' tags, to the specified output stream.
+
+        Args:
+            output_file (TextIO): The text stream where the formatted reachable proposition should be written.
+        """
         output_file.write("begin_reachable_propositions\n")
         reachable_propositions = []
-        for i in range(len(self.reachable_propositions)//2):
+        for i in range(len(self.reachable_propositions) // 2):
             if self.reachable_propositions[i] == 1:
                 reachable_propositions.append(i)
         output_file.write(str(len(reachable_propositions)) + "\n")
@@ -307,6 +330,7 @@ class Parser:
         return self.actions
 
     def get_reachable_actions(self):
+        """Gets the list of reachable actions, which is a list of pairs composed by the action and its respective parameters."""
         return self.reachable_actions
 
     def print_bdds(self, output_file: TextIO) -> None:
@@ -314,10 +338,12 @@ class Parser:
 
         This method generates a file containing a structured representation of the planning problem, including:
 
-        - Problem Name: Encased in `begin_problem_name` and `end_problem_name` tags.
-        - Propositions:  Encased in `begin_propositions` and `end_propositions` tags, along with their indices.
-        - Initial State: Encased in `begin_initial_state` and `end_initial_state` tags, with truth values for each proposition.
-        - Goal State:   Encased in `begin_goal_state` and `end_goal_state` tags, with truth values for defined goal propositions.
+        - Problem Name: Enclosed in 'begin_problem_name' and 'end_problem_name' tags.
+        - Propositions: Enclosed in 'begin_propositions' and 'end_propositions' tags, along with their indices.
+        - Initial State: Enclosed in 'begin_initial_state' and 'end_initial_state' tags, with truth values for each proposition.
+        - Goal State: Enclosed in 'begin_goal_state' and 'end_goal_state' tags, with truth values for defined goal propositions.
+        - Reachable Actions: Enclosed in 'begin_actions' and 'end_actions' tags, with their respective preconditions and effects.
+        - Reachable Propositions: Enclosed in 'begin_reachable_propositions' and 'end_reachable_propositions' tags, with the indices of the reachable propositions.
 
         Args:
             output_file_path (str): The path to the file where the output should be written.
