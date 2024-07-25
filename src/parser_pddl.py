@@ -346,7 +346,7 @@ class Parser:
         - Reachable Propositions: Enclosed in 'begin_reachable_propositions' and 'end_reachable_propositions' tags, with the indices of the reachable propositions.
 
         Args:
-            output_file_path (str): The path to the file where the output should be written.
+            output_file (TextIO): The text stream where the output should be written.
         """
         with open(output_file, 'w') as output_file:
             self.__print_problem_name(output_file)
