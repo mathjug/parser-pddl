@@ -1,9 +1,6 @@
-output.txt
 *__pycache__*
 *pyPDDLtest.py
 *.DS_Store
-tests/examples/ex
-create_test.py
-output.txt
 *.out
 output/
+create_test.py
