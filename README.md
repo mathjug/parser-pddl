@@ -19,12 +19,12 @@ must be followed:
 1. Clone the repository:
 
     ```bash
-    git clone https://gitlab.com/labxp-ime-usp/2024.1/pactl/parser_pddl_to_bdds.git
+    git clone https://github.com/mathjug/parser-pddl.git
     ```
 2. Navigate to the project directory:
 
     ```bash
-    cd parser_pddl_to_bdds
+    cd parser-pddl
     ```
 3. Create and activate a virtual environment:
 
